@@ -184,7 +184,21 @@ bot.on('message', message => {
     if (message.content.startsWith(PREFIX + "ping")) {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
     }
-    if (message.content.startsWith(PREFIX + "playing")) {
+    if (rip.content.startsWith(PREFIX + "commands")) {
+      if (rip.content.startsWith("!commands fun")) {
+        let embed = basicEmbed(getRandomInt(16777215), "Fun Commands\n**!rate** rates something\n**!8ball** uses a magic 8ball\n**!coinflip** flips a coin\n**!randomhex** sends a random colour with the hex value of it")
+      } else if (rip.content.startsWith("!commands staff")) {
+        let embed = basicEmbed(getRandomInt(16777215), "Staff Commands\n**!send** sends a message\n**!clear** clears a certain amount of messages\n**!warn** warns a member\n**!playing** sets the playing status\n**!watching** sets the watching status")
+      }else if (rip.content.startsWith("!commands dyno")) {
+        let embed = basicEmbed(getRandomInt(16777215), "Dyno Commands\n**?google** searches google for specified thing\n**?rps** plays rock paper scissors with the bot\n**?serverinfo** displays info about the server\n**?membercount** says member count\nfor more dyno commands go here https://www.dynobot.net/commands")
+      }else if (rip.content.startsWith("!commands info")){
+        let embed = basicEmbed(getRandomInt(16777215), "Info Commands\n**!ping** pings the bot\n**!userinfo** gets information about your user")
+      }else {
+        let embed = basicEmbed(getRandomInt(16777215), "Command Categories\n**Fun**\n**Staff**\n**Dyno**\n**Info**\nTo check a category, do !commands [category]\ncommands for all bots will be added to here over time")
+      }
+      message.channel.send({embed})
+    }
+    if (rip.content.startsWith(PREFIX + "playing")) {
         if (message.member.roles.has(admin)) {
             let content = args.join(" ")
             var useContent = content.substr(8);
@@ -194,7 +208,7 @@ bot.on('message', message => {
             message.channel.send("sorry, that command is for admins only")
                 .then(m => m.delete(5000));
     }
-    if (message.content.startsWith(PREFIX + "watching")) {
+    if (rip.content.startsWith(PREFIX + "watching")) {
         if (message.member.roles.has(admin)) {
             let content = args.join(" ")
             var useContent = content.substr(9);
