@@ -184,7 +184,7 @@ bot.on('message', message => {
     if (message.content.startsWith(PREFIX + "ping")) {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
     }
-    if (rip.content.startsWith(PREFIX + "commands")) {
+    if (rip.startsWith(PREFIX + "commands")) {
       if (rip.startsWith("!commands fun")) {
         let embed = basicEmbed(getRandomInt(16777215), "Fun Commands\n**!rate** rates something\n**!8ball** uses a magic 8ball\n**!coinflip** flips a coin\n**!randomhex** sends a random colour with the hex value of it")
       } else if (rip.startsWith("!commands staff")) {
@@ -198,7 +198,7 @@ bot.on('message', message => {
       }
       message.channel.send({embed})
     }
-    if (rip.content.startsWith(PREFIX + "playing")) {
+    if (rip.startsWith(PREFIX + "playing")) {
         if (message.member.roles.has(admin)) {
             let content = args.join(" ")
             var useContent = content.substr(8);
@@ -208,7 +208,7 @@ bot.on('message', message => {
             message.channel.send("sorry, that command is for admins only")
                 .then(m => m.delete(5000));
     }
-    if (rip.content.startsWith(PREFIX + "watching")) {
+    if (rip.startsWith(PREFIX + "watching")) {
         if (message.member.roles.has(admin)) {
             let content = args.join(" ")
             var useContent = content.substr(9);
