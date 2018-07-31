@@ -189,12 +189,11 @@ async function welcomecard(person, guild) {
         var ctx = c
         var fnt = PImage.registerFont('scorefont.ttf', 'Score Font')
         fnt.load(() => {
-            ctx.fillStyle = '#000000';
+            ctx.fillStyle = '#ffffff';
             ctx.font = `${size}pt 'Score Font'`;
             ctx.fillText(`${person.username}`, 134, 158);
-            ctx.fillStyle = '#ffffff'
             ctx.font = "20pt 'Score Font'";
-            ctx.fillText(`Member #${guild.memberCount}`, 324, 207);
+            ctx.fillText(`Member #${guild.memberCount}`, 310, 207);
             PImage.decodePNGFromStream(fs.createReadStream(`welcomepfp.png`)).then((pfp) => {
                 c.drawImage(pfp,
                     0, 0, pfp.width, pfp.height,
