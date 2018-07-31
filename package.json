@@ -67,7 +67,15 @@
     "node-opus": "0.3.0",
     "simple-youtube-api": "^3.0.0",
     "opusscript": "0.0.3",
-    "ffmpeg-binaries": "3.2.2-3"
+    "ffmpeg-binaries": "3.2.2-3",
+    "pureimage": "0.1.6",
+    "jpeg-js": "0.3.4",
+    "opentype.js": "0.8.0",
+    "pngjs": "3.3.3",
+    "tmp": "0.0.33",
+    "image-downloader": "3.4.0",
+    "async": "2.6.1",
+    "gif-frames": "0.4.0"
   },
   "devDependencies": {
     "eslint": "^4.0.0",
