@@ -175,7 +175,7 @@ async function welcomecard(person, guild) {
             frameData[0].getImage().pipe(fs.createWriteStream(`welcomepfp.png`))
         })
     }
-    PImage.decodePNGFromStream(fs.createReadStream(`welcomeCard.png`)).then((img) => {
+    PImage.decodePNGFromStream(fs.createReadStream(`baconbotwelcome.png`)).then((img) => {
         var size = (530 / person.username.toString().length)
         if (size > 40){
             size = 40
