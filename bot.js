@@ -197,7 +197,7 @@ async function welcomecard(person, guild) {
             PImage.decodePNGFromStream(fs.createReadStream(`welcomepfp.png`)).then((pfp) => {
                 c.drawImage(pfp,
                     0, 0, pfp.width, pfp.height,
-                    52, 44, 72, 72
+                    55, 44, 72, 72
                 )
                 PImage.encodePNGToStream(img2,fs.createWriteStream('welcome.png')).then(() => {
                     console.log(`${person.username} has just joined the server`);
