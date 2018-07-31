@@ -4,7 +4,11 @@ const ytdl = require('ytdl-core')
 const ffmpeg = require('ffmpeg-binaries')
 const bot = new Discord.Client();
 const PREFIX = "!";
+const PNG = require('pngjs')
+var gifFrames = require('gif-frames')
+const download = require('image-downloader')
 var gameMessage = new Function('return true')
+var PImage = require('pureimage');
 
 //google sheets API connection
 var request = require('request');
@@ -131,6 +135,8 @@ const artChannel = '421790550778183701'
 const announcements = '421770846915264526'
 const welcome = '421790758933233664'
 const banter = '421778879133384705'
+const rules = '472372452605820928'
+const botspam = '421789888929595407'
 
 //roles
 const admin = '421779825699848212'
@@ -160,6 +166,57 @@ function decimalToHexString(number) {
     if (number < 0) { number = 0xFFFFFFFF + number + 1 }
     return number.toString(16).toUpperCase();
 }
+
+async function welcomecard(person, guild) {
+    if ((person.displayAvatarURL.includes("png"))||(person.displayAvatarURL.includes("jpg"))){
+        await download.image({url: person.displayAvatarURL, dest:`scorecards/welcomepfp.png`})
+    }else if(person.displayAvatarURL.includes("gif")){
+        await gifFrames({url:person.displayAvatarURL, frames:0, outputType: 'png'}).then(function(frameData){
+            frameData[0].getImage().pipe(fs.createWriteStream(`scorecards/welcomepfp.png`))
+        })
+    }
+    PImage.decodePNGFromStream(fs.createReadStream(`welcomeCard.png`)).then((img) => {
+        var size = (530 / person.username.toString().length)
+        if (size > 40){
+            size = 40
+        }
+        var img2 = PImage.make(500,250);
+        var c = img2.getContext('2d');
+        c.drawImage(img,
+            0, 0, img.width, img.height, // source dimensions
+            0, 0, 500, 250               // destination dimensions
+        );
+        var ctx = c
+        var fnt = PImage.registerFont('scorefont.ttf', 'Score Font')
+        fnt.load(() => {
+            ctx.fillStyle = '#000000';
+            ctx.font = `${size}pt 'Score Font'`;
+            ctx.fillText(`${person.username}`, 134, 158);
+            ctx.fillStyle = '#ffffff'
+            ctx.font = "20pt 'Score Font'";
+            ctx.fillText(`Member #${guild.memberCount}`, 324, 207);
+            PImage.decodePNGFromStream(fs.createReadStream(`scorecards/welcomepfp.png`)).then((pfp) => {
+                c.drawImage(pfp,
+                    0, 0, pfp.width, pfp.height,
+                    52, 44, 72, 72
+                )
+                PImage.encodePNGToStream(img2,fs.createWriteStream('scorecards/welcome.png')).then(() => {
+                    console.log(`${person.username} has just joined the server`);
+                    guild.channels.get(welcome).send({files:[{attachment: 'scorecards/welcome.png', name:'welcome.png'}] })
+                    function message(channel){
+                        channel.send(`Welcome <@${person.id}> to The Swag Pigs server!\nHere's a short list of channels you'll want to check out:\n<#${rules}> it's just the rules for the server but its important you know them\n<#${botspam}> the commands channel!\nFor a list of commands just do !help\n<#${banter}> this is the general chat, its where most people can be found.`)
+                    }
+                    setTimeout(message, 100, guild.channels.get(welcome))
+                });
+            })
+        });
+    });
+}
+
+bot.on("guildMemberAdd", async member => {
+    let guild = member.guild;
+    welcomecard(member.user, guild)
+});
 
 bot.on('ready', () => {
     console.log('I am ready!');
