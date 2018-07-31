@@ -224,12 +224,6 @@ bot.on('ready', () => {
     wait(5000)
     bot.user.setPresence({ game: { name: 'in some dirt', type: 0 } });
     bot.user.setUsername("Kevin Bacon");
-    bot.channels.get(welcome).send("test")
-    bot.channels.get(welcome).bulkDelete(2)
-    bot.channels.get(welcome).send("Welcome to the Swag Pigs Server!\nBy clicking the ✅ button below, you agree to all the rules stated in <#421791585861238784>.\nOnce you have hit the checkmark, go ahead to <#421778879133384705> to say hi to everyone, and check out the other channel topics we have on the server! 🐷")
-        .then(function (message) {
-            message.react("✅")
-        });
 });
 
 bot.on('message', message => {
@@ -563,20 +557,6 @@ function reactionRoleToggle(channel, roleid, emoji, reaction, user, roles) {
         member.removeRoles(roles).then(member.addRole(roleid))
     }
 }
-
-bot.on('messageReactionAdd', (reaction, user) => {
-    if (reaction.emoji.name === "✅") {
-        if (user.bot) return;
-        let guild = reaction.message.guild;
-        let member = guild.member(user);
-        if (reaction.message.channel != bot.channels.get(welcome)) {
-            return;
-        }
-        bot.channels.get(banter).send(`Welcome ${reaction.users.array().toString().substr(reaction.users.array().toString().length - 21)} to the Swag Pigs server!`);
-        console.log(`${reaction.users.array().toString().substr(reaction.users.array().toString().length - 21)} reacted with "${reaction.emoji.name}".`);
-        member.addRole('421793270142861322');
-    }
-});
 
 //Delete Edit Log Code
 bot.on('messageUpdate', (omsg, nmsg) => {
