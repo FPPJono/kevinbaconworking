@@ -169,10 +169,10 @@ function decimalToHexString(number) {
 
 async function welcomecard(person, guild) {
     if ((person.displayAvatarURL.includes("png"))||(person.displayAvatarURL.includes("jpg"))){
-        await download.image({url: person.displayAvatarURL, dest:`scorecards/welcomepfp.png`})
+        await download.image({url: person.displayAvatarURL, dest:`welcomepfp.png`})
     }else if(person.displayAvatarURL.includes("gif")){
         await gifFrames({url:person.displayAvatarURL, frames:0, outputType: 'png'}).then(function(frameData){
-            frameData[0].getImage().pipe(fs.createWriteStream(`scorecards/welcomepfp.png`))
+            frameData[0].getImage().pipe(fs.createWriteStream(`welcomepfp.png`))
         })
     }
     PImage.decodePNGFromStream(fs.createReadStream(`welcomeCard.png`)).then((img) => {
@@ -195,14 +195,14 @@ async function welcomecard(person, guild) {
             ctx.fillStyle = '#ffffff'
             ctx.font = "20pt 'Score Font'";
             ctx.fillText(`Member #${guild.memberCount}`, 324, 207);
-            PImage.decodePNGFromStream(fs.createReadStream(`scorecards/welcomepfp.png`)).then((pfp) => {
+            PImage.decodePNGFromStream(fs.createReadStream(`welcomepfp.png`)).then((pfp) => {
                 c.drawImage(pfp,
                     0, 0, pfp.width, pfp.height,
                     52, 44, 72, 72
                 )
-                PImage.encodePNGToStream(img2,fs.createWriteStream('scorecards/welcome.png')).then(() => {
+                PImage.encodePNGToStream(img2,fs.createWriteStream('welcome.png')).then(() => {
                     console.log(`${person.username} has just joined the server`);
-                    guild.channels.get(welcome).send({files:[{attachment: 'scorecards/welcome.png', name:'welcome.png'}] })
+                    guild.channels.get(welcome).send({files:[{attachment: 'welcome.png', name:'welcome.png'}] })
                     function message(channel){
                         channel.send(`Welcome <@${person.id}> to The Swag Pigs server!\nHere's a short list of channels you'll want to check out:\n<#${rules}> it's just the rules for the server but its important you know them\n<#${botspam}> the commands channel!\nFor a list of commands just do !help\n<#${banter}> this is the general chat, its where most people can be found.`)
                     }
@@ -216,6 +216,7 @@ async function welcomecard(person, guild) {
 bot.on("guildMemberAdd", async member => {
     let guild = member.guild;
     welcomecard(member.user, guild)
+    guild.channels.get(banter).send(`Welcome <@${member.id}> to the swag pigs server!`)
 });
 
 bot.on('ready', () => {
