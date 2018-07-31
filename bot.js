@@ -203,7 +203,7 @@ async function welcomecard(person, guild) {
                     console.log(`${person.username} has just joined the server`);
                     guild.channels.get(welcome).send({files:[{attachment: 'welcome.png', name:'welcome.png'}] })
                     function message(channel){
-                        channel.send(`Welcome <@${person.id}> to The Swag Pigs server!\nHere's a short list of channels you'll want to check out:\n<#${rules}> it's just the rules for the server but its important you know them\n<#${botspam}> the commands channel!\nFor a list of commands just do !help\n<#${banter}> this is the general chat, its where most people can be found.`)
+                        channel.send(`Welcome <@${person.id}> to The Swag Pigs server!\nHere's a short list of channels you'll want to check out:\n<#${rules}> it's just the rules for the server but its important you know them\n<#${botspam}> the commands channel!\nFor a list of commands just do !commands\n<#${banter}> this is the general chat, its where most people can be found.`)
                     }
                     setTimeout(message, 100, guild.channels.get(welcome))
                 });
