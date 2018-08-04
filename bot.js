@@ -140,6 +140,8 @@ const botspam = '421789888929595407'
 
 //roles
 const admin = '421779825699848212'
+const furry = '475441073288642593'
+const weeb = '475440965222531093'
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -235,6 +237,13 @@ bot.on('message', message => {
     if (message.content.startsWith(PREFIX + "ping")) {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
     }
+    if (message.channel.type === "dm") {
+        var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
+        var s = rip
+        s = s.replace(/[abcdefghijklmnopqrstuvwxyz1234567890 ]/g, m => chars[m]);
+        message.channel.send(`${s}`)
+        return
+    }
     if (rip.startsWith(PREFIX + "commands")) {
       if (rip.startsWith("!commands fun")) {
         let embed = basicEmbed(getRandomInt(16777215), "Fun Commands\n**!rate** rates something\n**!8ball** uses a magic 8ball\n**!coinflip** flips a coin\n**!randomhex** sends a random colour with the hex value of it")
@@ -262,6 +271,14 @@ bot.on('message', message => {
         } else
             message.channel.send("sorry, that command is for admins only")
                 .then(m => m.delete(5000));
+    }
+    if (rip.startsWith('!wee')) {
+        message.member.addRole(weeb)
+        message.member.removeRole(furry)
+    }
+    if (rip.startsWith('!furry')) {
+        message.member.removeRole(weeb)
+        message.member.addRole(furry)
     }
     if (rip.startsWith(PREFIX + "watching")) {
         if (message.member.roles.has(admin)) {
