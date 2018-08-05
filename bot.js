@@ -257,8 +257,11 @@ bot.on('message', message => {
       }else if (rip.startsWith("!commands info")){
         let embed = basicEmbed(getRandomInt(16777215), "Info Commands\n**!ping** pings the bot\n**!userinfo** gets information about your user")
         message.channel.send({embed})
+      }else if (rip.startsWith('!commands the')){
+        let embed = basicEmbed(getRandomInt(16777215), "The Revolution\n**!weeb** gives you weeb role\n**!furry** gives you furry role")
+        message.channel.send({embed})
       }else {
-        let embed = basicEmbed(getRandomInt(16777215), "Command Categories\n**Fun**\n**Staff**\n**Dyno**\n**Info**\nTo check a category, do !commands [category]\ncommands for all bots will be added to here over time")
+        let embed = basicEmbed(getRandomInt(16777215), "Command Categories\n**Fun**\n**Staff**\n**Dyno**\n**Info**\n**The Revolution**\nTo check a category, do !commands [category]\ncommands for all bots will be added to here over time")
         message.channel.send({embed})
       }
     }
@@ -275,10 +278,12 @@ bot.on('message', message => {
     if (rip.startsWith('!wee')) {
         message.member.addRole(weeb)
         message.member.removeRole(furry)
+        message.channel.send('```You are now a weeb!```')
     }
     if (rip.startsWith('!furry')) {
         message.member.removeRole(weeb)
         message.member.addRole(furry)
+        message.channel.send('```You are now a furry!```')
     }
     if (rip.startsWith(PREFIX + "watching")) {
         if (message.member.roles.has(admin)) {
