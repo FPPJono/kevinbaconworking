@@ -343,6 +343,17 @@ bot.on('message', message => {
         };
         guild.channels.get(slurChannel).send({ embed });
     }
+    const hatewords = ["gay", "black", "homo"];
+    var swearCheck = rip.replace(/\s/g, '')
+    if (swearCheck.includes('hate') {
+        if (hatewords.some(word => swearCheck.includes(word))) {
+            message.channel.send("this server is mostly jokes, please do not take offense to anything said.")
+                .then(m => m.delete(15000));
+        }
+    }
+    if (rip.content.startsWith('!headsup')){
+        message.channel.send("this server is mostly jokes, please do not take offense to anything said.")
+    }
     if (message.content.startsWith(PREFIX + "send")) {
         if (message.member.roles.has(admin)) {
             const sayMessage = args.join(" ");
