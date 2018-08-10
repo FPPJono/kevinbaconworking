@@ -351,7 +351,7 @@ bot.on('message', message => {
                 .then(m => m.delete(15000));
         }
     }
-    if (rip.content.startsWith('!headsup')){
+    if (rip.startsWith('!headsup')){
         message.channel.send("this server is mostly jokes, please do not take offense to anything said.")
     }
     if (message.content.startsWith(PREFIX + "send")) {
