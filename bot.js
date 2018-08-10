@@ -140,8 +140,6 @@ const botspam = '421789888929595407'
 
 //roles
 const admin = '421779825699848212'
-const furry = '475441073288642593'
-const weeb = '475440965222531093'
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -257,9 +255,6 @@ bot.on('message', message => {
       }else if (rip.startsWith("!commands info")){
         let embed = basicEmbed(getRandomInt(16777215), "Info Commands\n**!ping** pings the bot\n**!userinfo** gets information about your user")
         message.channel.send({embed})
-      }else if (rip.startsWith('!commands the')){
-        let embed = basicEmbed(getRandomInt(16777215), "The Revolution\n**!weeb** gives you weeb role\n**!furry** gives you furry role")
-        message.channel.send({embed})
       }else {
         let embed = basicEmbed(getRandomInt(16777215), "Command Categories\n**Fun**\n**Staff**\n**Dyno**\n**Info**\n**The Revolution**\nTo check a category, do !commands [category]\ncommands for all bots will be added to here over time")
         message.channel.send({embed})
@@ -275,16 +270,7 @@ bot.on('message', message => {
             message.channel.send("sorry, that command is for admins only")
                 .then(m => m.delete(5000));
     }
-    if (rip.startsWith('!wee')) {
-        message.member.addRole(weeb)
-        message.member.removeRole(furry)
-        message.channel.send('```You are now a weeb!```')
-    }
-    if (rip.startsWith('!furry')) {
-        message.member.removeRole(weeb)
-        message.member.addRole(furry)
-        message.channel.send('```You are now a furry!```')
-    }
+
     if (rip.startsWith(PREFIX + "watching")) {
         if (message.member.roles.has(admin)) {
             let content = args.join(" ")
