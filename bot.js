@@ -1,7 +1,5 @@
 //bot requirements
 const Discord = require('discord.js');
-const ytdl = require('ytdl-core')
-const ffmpeg = require('ffmpeg-binaries')
 const bot = new Discord.Client();
 const PREFIX = "!";
 const PNG = require('pngjs')
@@ -9,6 +7,8 @@ var gifFrames = require('gif-frames')
 const download = require('image-downloader')
 var gameMessage = new Function('return true')
 var PImage = require('pureimage');
+
+var userData = JSON.parse(fs.readFileSync('staffapp.json', 'utf8'))
 
 //google sheets API connection
 var request = require('request');
@@ -165,6 +165,14 @@ function wait(ms) {
 function decimalToHexString(number) {
     if (number < 0) { number = 0xFFFFFFFF + number + 1 }
     return number.toString(16).toUpperCase();
+}
+
+function richEmbed(color, commands, descriptions, title) {
+    var embed = {"color":color, "author":{"name":title}, "fields":[]}
+    for (var i in commands) {
+        embed.fields.push({"name": commands[i], "value": descriptions[i]})
+    }
+    return embed
 }
 
 async function welcomecard(person, guild) {
@@ -534,31 +542,54 @@ bot.on('message', message => {
 });
 
 bot.on('message', async message => {
-    //Music bot commands
-
-    if (message.content.startsWith(`${PREFIX}play`)) {
-        const voiceChannel = message.member.voiceChannel
-        if (!voiceChannel) return message.channel.send("you must be in a voice channel to use this command")
-        const permissions = voiceChannel.permissionsFor(message.client.user)
-        if (!permissions.has('CONNECT')) {
-            return message.channel.send("I cannot connect to that voice channel")
-        }
-        if (!permissions.has('SPEAK')) {
-            return message.channel.send('I cannot speak in this voice channel, check my permissions and try again')
-        }
-        try {
-            var connection = await voiceChannel.join()
-        } catch (error) {
-            console.log(`I could not join the voice channel: ${error}`)
-        }
-        voiceChannel.join()
-            .then(connection => {
-                const stream = ytdl('https://www.youtube.com/watch?v=b3hvAOb8arY', { filter: 'audioonly' })
-                const dispatcher = connection.playStream(stream)
-            })
+    //staffapp
+    let rip = message.content.toLowerCase()
+    if (rip.startsWith("!apply")) {
+        userData[message.author.id] = {question: 1, answer1:"", answer2:"", answer3:"", answer4:"", answer5:"", answer6:"", answer7:"", answer8:""}
+        message.author.send("``You are applying to become staff on the Swag Pigs server, first off please tell us a little about yourself``")
     }
-    if (message.content.startsWith(`${PREFIX}leave`)) {
-        message.member.voiceChannel.leave()
+    if (message.channel.type === "dm") {
+      if (userData[message.author.id].question === 1) {
+        userData[message.author.id].answer1 = message.content.substr(0, 1024)
+        message.author.send("what are your biggest weaknesses?")
+        userData[message.author.id].question = 2
+      }
+      if (userData[message.author.id].question === 2) {
+        userData[message.author.id].answer2 = message.content.substr(0, 1024)
+        message.author.send("what are your biggest strengths?")
+        userData[message.author.id].question = 3
+      }
+      if (userData[message.author.id].question === 3) {
+        userData[message.author.id].answer3 = message.content.substr(0, 1024)
+        message.author.send("out of all the other candidates, why should we choose you?")
+        userData[message.author.id].question = 4
+      }
+      if (userData[message.author.id].question === 4) {
+        userData[message.author.id].answer4 = message.content.substr(0, 1024)
+        message.author.send("why do you want this job?")
+        userData[message.author.id].question = 5
+      }
+      if (userData[message.author.id].question === 5) {
+        userData[message.author.id].answer5 = message.content.substr(0, 1024)
+        message.author.send("What is your leadership style?")
+        userData[message.author.id].question = 6
+      }
+      if (userData[message.author.id].question === 6) {
+        userData[message.author.id].answer6 = message.content.substr(0, 1024)
+        message.author.send("Tell me how you think other people would describe you.")
+        userData[message.author.id].question = 7
+      }
+      if (userData[message.author.id].question === 7) {
+        userData[message.author.id].answer7 = message.content.substr(0, 1024)
+        message.author.send("How would you go about punishing a member who has done something wrong?")
+        userData[message.author.id].question = 8
+      }
+      if (userData[message.author.id].question === 8) {
+        userData[message.author.id].answer8 = message.content.substr(0, 1024)
+        message.author.send("Thank you for entering your application, staff will look through it soon and once all have been checked, our new staff members will be announced")
+        userData[message.author.id].question = 9
+        bot.guilds.get("421770342361464833").channels.get("480921669851021352").send("this is a test because I like aids")
+      }
     }
 });
 
