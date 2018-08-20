@@ -435,6 +435,7 @@ bot.on('message', async message => {
     //staffapp
     let staffApps = []
     let rip = message.content.toLowerCase()
+    if (message.author.bot) return;
     if (rip.startsWith("!apply")) {
         if (staffApps.includes(message.author.id)) return message.channel.send("you have already sent in an application, you cannot do this more than once")
         staffApps.push(message.author.id, {"question":1, "answer1":"", "answer2":"", "answer3":"", "answer4":"", "answer5":"", "answer6":"", "answer7":"", "answer8":""})
