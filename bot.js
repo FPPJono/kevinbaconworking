@@ -20,6 +20,8 @@ const readline = require('readline');
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const TOKEN_PATH = 'credentials.json';
 
+var staffApps = []
+
 //Bot Code
 
 //channels
@@ -129,7 +131,6 @@ bot.on('ready', () => {
     wait(5000)
     bot.user.setPresence({ game: { name: 'in some dirt', type: 0 } });
     bot.user.setUsername("Kevin Bacon");
-    let staffApps = []
 });
 
 bot.on('message', message => {
