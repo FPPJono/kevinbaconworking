@@ -20,7 +20,6 @@ const readline = require('readline');
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const TOKEN_PATH = 'credentials.json';
 
-var userData = JSON.parse(fs.readFileSync('staffapp.json', 'utf8'))
 //Bot Code
 
 //channels
@@ -140,13 +139,6 @@ bot.on('message', message => {
     let rip = message.content.toLowerCase()
     if (message.content.startsWith(PREFIX + "ping")) {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
-    }
-    if ((message.channel.type === "dm")&&((!userData[message.author.id])||(userData[message.author.id] >= 9))) {
-        var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
-        var s = rip
-        s = s.replace(/[abcdefghijklmnopqrstuvwxyz1234567890 ]/g, m => chars[m]);
-        message.channel.send(`${s}`)
-        return
     }
     if (rip.startsWith(PREFIX + "commands")) {
       if (rip.startsWith("!commands fun")) {
@@ -441,64 +433,53 @@ bot.on('message', message => {
 
 bot.on('message', async message => {
     //staffapp
+    let staffApps = []
     let rip = message.content.toLowerCase()
     if (rip.startsWith("!apply")) {
-        if (!userData[message.author.id]) {
-            userData[message.author.id] = {
-                question: 1,
-                answer1:"",
-                answer2:"",
-                answer3:"",
-                answer4:"",
-                answer5:"",
-                answer6:"",
-                answer7:"",
-                answer8:""
-            }
-        }
-        message.author.send("``You are applying to become staff on the Swag Pigs server, first off please tell us a little about yourself``", {files:[{attachment: 'staffapp.json', name:'test.json'}] })
+        if (staffApps.includes(message.author.id)) return message.channel.send("you have already sent in an application, you cannot do this more than once")
+        staffApps.push(message.author.id, {question:1, answer1:"", answer2:"", answer3:"", answer4:"", answer5:"", answer6:"", answer7:"", answer8:""})
+        message.author.send("You are applying to become staff on the Swag Pigs server, first off please tell us a little about yourself")
     }
     if (message.channel.type === "dm") {
-      if (userData[message.author.id].question === 1) {
-        userData[message.author.id].answer1 = message.content.substr(0, 1024)
+      if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 1) {
+        staffApps[staffApps.indexOf(message.author.id) + 1].answer1 = message.content.substr(0, 1024)
         message.author.send("what are your biggest weaknesses?")
-        userData[message.author.id].question = 2
-      }
-      if (userData[message.author.id].question === 2) {
-        userData[message.author.id].answer2 = message.content.substr(0, 1024)
+        staffApps[staffApps.indexOf(message.author.id)+ 1].question = 2
+      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 2) {
+        staffApps[staffApps.indexOf(message.author.id) + 1].answer2 = message.content.substr(0, 1024)
         message.author.send("what are your biggest strengths?")
-        userData[message.author.id].question = 3
-      }
-      if (userData[message.author.id].question === 3) {
-        userData[message.author.id].answer3 = message.content.substr(0, 1024)
+        staffApps[staffApps.indexOf(message.author.id) + 1].question = 3
+      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 3) {
+        staffApps[staffApps.indexOf(message.author.id) + 1].answer3 = message.content.substr(0, 1024)
         message.author.send("out of all the other candidates, why should we choose you?")
-        userData[message.author.id].question = 4
-      }
-      if (userData[message.author.id].question === 4) {
-        userData[message.author.id].answer4 = message.content.substr(0, 1024)
+        staffApps[staffApps.indexOf(message.author.id) + 1].question = 4
+      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 4) {
+        staffApps[staffApps.indexOf(message.author.id) + 1].answer4 = message.content.substr(0, 1024)
         message.author.send("why do you want this job?")
-        userData[message.author.id].question = 5
-      }
-      if (userData[message.author.id].question === 5) {
-        userData[message.author.id].answer5 = message.content.substr(0, 1024)
+        staffApps[staffApps.indexOf(message.author.id) + 1].question = 5
+      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 5) {
+        staffApps[staffApps.indexOf(message.author.id) + 1].answer5 = message.content.substr(0, 1024)
         message.author.send("What is your leadership style?")
-        userData[message.author.id].question = 6
-      }
-      if (userData[message.author.id].question === 6) {
-        userData[message.author.id].answer6 = message.content.substr(0, 1024)
+        staffApps[staffApps.indexOf(message.author.id) + 1].question = 6
+      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 6) {
+        staffApps[staffApps.indexOf(message.author.id) + 1].answer6 = message.content.substr(0, 1024)
         message.author.send("Tell me how you think other people would describe you.")
-        userData[message.author.id].question = 7
-      }
-      if (userData[message.author.id].question === 7) {
-        userData[message.author.id].answer7 = message.content.substr(0, 1024)
+        staffApps[staffApps.indexOf(message.author.id) + 1].question = 7
+      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 7) {
+        staffApps[staffApps.indexOf(message.author.id) + 1].answer7 = message.content.substr(0, 1024)
         message.author.send("How would you go about punishing a member who has done something wrong?")
-        userData[message.author.id].question = 8
-      }
-      if (userData[message.author.id].question === 8) {
-        userData[message.author.id].answer8 = message.content.substr(0, 1024)
+        staffApps[staffApps.indexOf(message.author.id) + 1].question = 8
+      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 8) {
+        staffApps[staffApps.indexOf(message.author.id) + 1].answer8 = message.content.substr(0, 1024)
         message.author.send("Thank you for entering your application, staff will look through it soon and once all have been checked, our new staff members will be announced")
-        userData[message.author.id].question = 9
-        bot.guilds.get("421770342361464833").channels.get("480921669851021352").send("this is a test because I like aids")
+        staffApps[staffApps.indexOf(message.author.id) + 1].question = 9
+        bot.guilds.get("421770342361464833").channels.get("480921669851021352").send(staffApps[staffApps.indexOf(message.author.id)+ 1])
+      }else {
+        var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
+        var s = rip
+        s = s.replace(/[abcdefghijklmnopqrstuvwxyz1234567890 ]/g, m => chars[m]);
+        message.channel.send(`${s}`)
+        return
       }
     }
 });
