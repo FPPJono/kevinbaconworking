@@ -443,7 +443,19 @@ bot.on('message', async message => {
     //staffapp
     let rip = message.content.toLowerCase()
     if (rip.startsWith("!apply")) {
-        if (!userData[message.author.id]) userData[message.author.id] = {"question": 1, "answer1":"", "answer2":"", "answer3":"", "answer4":"", "answer5":"", "answer6":"", "answer7":"", "answer8":""}
+        if (!userData[message.author.id]) {
+            userData[message.author.id] = {
+                question: 1,
+                answer1:"",
+                answer2:"",
+                answer3:"",
+                answer4:"",
+                answer5:"",
+                answer6:"",
+                answer7:"",
+                answer8:""
+            }
+        }
         message.author.send("``You are applying to become staff on the Swag Pigs server, first off please tell us a little about yourself``", {files:[{attachment: 'staffapp.json', name:'test.json'}] })
     }
     if (message.channel.type === "dm") {
