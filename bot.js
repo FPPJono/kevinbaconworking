@@ -8,8 +8,6 @@ const download = require('image-downloader')
 var gameMessage = new Function('return true')
 var PImage = require('pureimage');
 
-var userData = JSON.parse(fs.readFileSync('staffapp.json', 'utf8'))
-
 //google sheets API connection
 var request = require('request');
 var cheerio = require('cheerio');
@@ -21,108 +19,8 @@ var fs = require('fs');
 const readline = require('readline');
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const TOKEN_PATH = 'credentials.json';
-/*
-fs.readFile('client_secret.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  // Authorize a client with credentials, then call the Google Sheets API.
-  authorize(JSON.parse(content), listMajors);
-});
 
-function authorize(credentials, callback) {
-  const {client_secret, client_id, redirect_uris} = credentials.installed;
-  const oAuth2Client = new google.auth.OAuth2(
-      client_id, client_secret, redirect_uris[0]);
-
-  // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getNewToken(oAuth2Client, callback);
-    oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
-  });
-}
-
-function getNewToken(oAuth2Client, callback) {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
-  });
-  console.log('Authorize this app by visiting this url:', authUrl);
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  rl.question('Enter the code from that page here: ', (code) => {
-    rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return callback(err);
-      oAuth2Client.setCredentials(token);
-      // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) console.error(err);
-        console.log('Token stored to', TOKEN_PATH);
-      });
-      callback(oAuth2Client);
-    });
-  });
-}
-
-function listMajors(auth) {
-  const sheets = google.sheets({version: 'v4', auth});
-  sheets.spreadsheets.values.get({
-    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-    range: 'Class Data!A2:E',
-  }, (err, {data}) => {
-    if (err) return console.log('The API returned an error: ' + err);
-    const rows = data.values;
-    if (rows.length) {
-      console.log('Name, Major:');
-      // Print columns A and E, which correspond to indices 0 and 4.
-      rows.map((row) => {
-        console.log(`${row[0]}, ${row[4]}`);
-      });
-    } else {
-      console.log('No data found.');
-    }
-  });
-}
-
-authorize(function(authClient) {
-  var request = {
-    spreadsheetId: '1LAT5fQd7lOsH_tQyCleufWLCMua6MGHRDAjxqpz0AOI',
-    range: 'Sheet1',
-    auth: authClient,
-  };
-
-  sheets.spreadsheets.values.get(request, function(err, response) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    // TODO: Change code below to process the `response` object:
-    console.log(JSON.stringify(response, null, 2));
-  });
-});
-
-function authorize(callback) {
-  // TODO: Change placeholder below to generate authentication credentials. See
-  // https://developers.google.com/sheets/quickstart/nodejs#step_3_set_up_the_sample
-  //
-  // Authorize using one of the following scopes:
-  //   'https://www.googleapis.com/auth/drive'
-  //   'https://www.googleapis.com/auth/drive.file'
-  //   'https://www.googleapis.com/auth/drive.readonly'
-  //   'https://www.googleapis.com/auth/spreadsheets'
-  //   'https://www.googleapis.com/auth/spreadsheets.readonly'
-  var authClient = 'https://www.googleapis.com/auth/spreadsheets.readonly'
-
-  if (authClient == null) {
-    console.log('authentication failed');
-    return;
-  }
-  callback(authClient);
-}
-*/
+var userData = JSON.parse(fs.readFileSync('staffapp.json', 'utf8'))
 //Bot Code
 
 //channels
@@ -243,7 +141,7 @@ bot.on('message', message => {
     if (message.content.startsWith(PREFIX + "ping")) {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
     }
-    if (message.channel.type === "dm") {
+    if ((message.channel.type === "dm")&&((!userData[message.author.id])||(userData[message.author.id] >= 9))) {
         var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
         var s = rip
         s = s.replace(/[abcdefghijklmnopqrstuvwxyz1234567890 ]/g, m => chars[m]);
