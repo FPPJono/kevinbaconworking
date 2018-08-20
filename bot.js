@@ -129,6 +129,7 @@ bot.on('ready', () => {
     wait(5000)
     bot.user.setPresence({ game: { name: 'in some dirt', type: 0 } });
     bot.user.setUsername("Kevin Bacon");
+    let staffApps = []
 });
 
 bot.on('message', message => {
@@ -433,7 +434,6 @@ bot.on('message', message => {
 
 bot.on('message', async message => {
     //staffapp
-    let staffApps = []
     let rip = message.content.toLowerCase()
     if (message.author.bot) return;
     if (rip.startsWith("!apply")) {
