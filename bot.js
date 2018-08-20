@@ -437,12 +437,6 @@ bot.on('message', async message => {
     //staffapp
     let rip = message.content.toLowerCase()
     if (message.author.bot) return;
-    if (rip.startsWith("!apply")) {
-        if (staffApps.includes(message.author.id)) return message.channel.send("you have already sent in an application, you cannot do this more than once")
-        message.author.send(JSON.stringify(staffApps))
-        staffApps.push(message.author.id, {"question":1, "answer1":"", "answer2":"", "answer3":"", "answer4":"", "answer5":"", "answer6":"", "answer7":"", "answer8":""})
-        message.author.send(`You are applying to become staff on the Swag Pigs server, first off please tell us a little about yourself ${JSON.stringify(staffApps)}`)
-    }
     if (message.channel.type === "dm") {
       if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 1) {
         staffApps[staffApps.indexOf(message.author.id) + 1].answer1 = message.content.substr(0, 1024)
@@ -488,6 +482,11 @@ bot.on('message', async message => {
         message.channel.send(`${s}`)
         return
       }
+    }
+    if (rip.startsWith("!apply")) {
+        if (staffApps.includes(message.author.id)) return message.channel.send("you have already sent in an application, you cannot do this more than once")
+        staffApps.push(message.author.id, {"question":1, "answer1":"", "answer2":"", "answer3":"", "answer4":"", "answer5":"", "answer6":"", "answer7":"", "answer8":""})
+        message.author.send(`You are applying to become staff on the Swag Pigs server, first off please tell us a little about yourself`)
     }
 });
 
