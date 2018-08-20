@@ -476,7 +476,11 @@ bot.on('message', async message => {
         staffApps[staffApps.indexOf(message.author.id) + 1].answer8 = message.content.substr(0, 1024)
         message.author.send("Thank you for entering your application, staff will look through it soon and once all have been checked, our new staff members will be announced")
         staffApps[staffApps.indexOf(message.author.id) + 1].question = 9
-        bot.guilds.get("421770342361464833").channels.get("480921669851021352").send(staffApps[staffApps.indexOf(message.author.id)+ 1])
+        var questions = ["tell us a little bit about yourself", "what are your biggest weaknesses", "what are your biggest strengths", "why should we choose you", "why do you want this job", "what is your leadership style", "how would others describe you", "how would you punish someone"]
+        var personObj = staffApps[staffApps.indexOf(message.author.id) + 1]
+        var answers = [personObj.answer1, personObj.answer2, personObj.answer3, personObj.answer4, personObj.answer5, personObj.answer6, personObj.answer7, personObj.answer8]
+        var embed = richEmbed(getRandomInt(16777215), questions, answers, `Application from ${message.author.username}`)
+        bot.guilds.get("421770342361464833").channels.get("480921669851021352").send({embed})
       }else {
         var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
         var s = rip
