@@ -39,6 +39,7 @@ const botspam = '421789888929595407'
 
 //roles
 const admin = '421779825699848212'
+const mod = '481264368512663562'
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -147,7 +148,7 @@ bot.on('message', message => {
         let embed = basicEmbed(getRandomInt(16777215), "Fun Commands\n**!rate** rates something\n**!8ball** uses a magic 8ball\n**!coinflip** flips a coin\n**!randomhex** sends a random colour with the hex value of it")
         message.channel.send({embed})
       } else if (rip.startsWith("!commands staff")) {
-        let embed = basicEmbed(getRandomInt(16777215), "Staff Commands\n**!send** sends a message\n**!clear** clears a certain amount of messages\n**!warn** warns a member\n**!playing** sets the playing status\n**!watching** sets the watching status")
+        let embed = basicEmbed(getRandomInt(16777215), "Staff Commands\n**!send** sends a message\n**!clear** clears a certain amount of messages\n**!warn** warns a member\n**!playing** sets the playing status\n**!watching** sets the watching status\n**!apply** sends an application to become staff")
         message.channel.send({embed})
       }else if (rip.startsWith("!commands dyno")) {
         let embed = basicEmbed(getRandomInt(16777215), "Dyno Commands\n**?google** searches google for specified thing\n**?rps** plays rock paper scissors with the bot\n**?serverinfo** displays info about the server\n**?membercount** says member count\nfor more dyno commands go here https://www.dynobot.net/commands")
@@ -255,7 +256,7 @@ bot.on('message', message => {
         message.channel.send("this server is mostly jokes, please do not take offense to anything said.")
     }
     if (message.content.startsWith(PREFIX + "send")) {
-        if (message.member.roles.has(admin)) {
+        if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) {
             const sayMessage = args.join(" ");
             var useContent = sayMessage.substr(5);
             var attachments = (message.attachments).array()
@@ -290,7 +291,7 @@ bot.on('message', message => {
         message.channel.send({ embed });
     }
     if (message.content.startsWith(PREFIX + "clear")) {
-        if (message.member.roles.has(admin)) {
+        if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) {
             message.delete()
             let messagecount = parseInt(args[1]) || 1;
             if (messagecount > 100) return;
@@ -317,7 +318,7 @@ bot.on('message', message => {
         message.channel.send({ embed });
     }
     if (message.content.startsWith(PREFIX + "warn")) {
-        if (message.member.roles.has(admin)) {
+        if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) {
             let guild = message.guild;
             let warning = message.content.substr(28)
             let color = message.guild.member(message.mentions.users.first()).displayColor
@@ -379,7 +380,7 @@ bot.on('message', message => {
         message.channel.send({ embed });
     }
     if (message.content.startsWith(PREFIX + "dm")) {
-        if (message.member.roles.has(admin)) {
+        if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) {
             let guild = message.guild;
             let content = message.content.substr(26)
             guild.member(message.mentions.users.first()).send(content)
