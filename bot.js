@@ -75,6 +75,14 @@ function richEmbed(color, commands, descriptions, title) {
     return embed
 }
 
+function pfpEmbed(color, commands, descriptions, title, pfpurl) {
+    var embed = {"color":color, "author":{"name":title}, "fields":[], "thumbnail":{"url":pfpurl}}
+    for (var i in commands) {
+        embed.fields.push({"name": commands[i], "value": descriptions[i]})
+    }
+    return embed
+}
+
 async function welcomecard(person, guild) {
     if ((person.displayAvatarURL.includes("png"))||(person.displayAvatarURL.includes("jpg"))){
         await download.image({url: person.displayAvatarURL, dest:`welcomepfp.png`})
@@ -513,123 +521,21 @@ bot.on('messageUpdate', (omsg, nmsg) => {
     console.log(`${omsg.author.username} just edited their message`);
     let guild = omsg.guild;
     let color = guild.member(omsg.author).displayColor
-    var attachments = (omsg.attachments).array()
-    if (omsg.attachments.array().length >= 1) {
-        var embed = {
-            "title": `${omsg.author.username} just edited their message`,
-            "description": `Message sent in channel #${omsg.channel.name}`,
-            "color": color,
-            "thumbnail": {
-                "url": `${omsg.author.avatarURL}`
-            },
-            "image": {
-                "url": `${attachments[0].url}`
-            },
-            "author": {
-                "name": "The Magical Edit Searcher",
-                "icon_url": "https://cdn.discordapp.com/app-icons/416446498264580096/4f17fb88d33f4655d85154ee064f030d.png"
-            },
-            "fields": [
-                {
-                    "name": "Original message:",
-                    "value": `${omsg.content.substr(0, 1024)}`
-                },
-                {
-                    "name": "New Message:",
-                    "value": `${nmsg.content.substr(0, 1024)}`
-                },
-                {
-                    "name": "Attached Image",
-                    "value": `Link: ${attachments[0].url}`
-                }
-            ]
-        }
-    }
-    if (omsg.attachments.array().length <= 0) {
-        var embed = {
-            "title": `${omsg.author.username} just edited their message`,
-            "description": `Message sent in channel #${omsg.channel.name}`,
-            "color": color,
-            "thumbnail": {
-                "url": `${omsg.author.avatarURL}`
-            },
-            "author": {
-                "name": "The Magical Edit Searcher",
-                "icon_url": "https://cdn.discordapp.com/app-icons/416446498264580096/4f17fb88d33f4655d85154ee064f030d.png"
-            },
-            "fields": [
-                {
-                    "name": "Original message:",
-                    "value": `${omsg.content.substr(0, 1024)}`
-                },
-                {
-                    "name": "New Message:",
-                    "value": `${nmsg.content.substr(0, 1024)}`
-                }
-            ]
-        }
-    }
+    var embed = pfpEmbed(color, ["Channel", "Original Message Content", "New Message Content"], [`<#${omsg.channel.id}>`,`${omsg.content.substr(0, 1024)}`, `${nmsg.content.substr(0,1024)}`], `${omsg.author.username} just edited their message!`, `${omsg.author.avatarURL}`)
     guild.channels.get(deleteEditChannel).send({ embed });
 });
 
 bot.on('messageDelete', message => {
     let guild = message.guild;
     if (message.author.bot) return;
-    if ((message.content.startsWith('!clear')) || (message.content.startsWith('!send')) || (message.content.startsWith('!warn')) || (message.content.startsWith('!suggest')) || (message.content.startsWith('!type')) || (message.content.startsWith('!stoptype'))) return;
-    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autist", "negroid", "dike"];
     let rip = message.content.toLowerCase()
+    if ((rip.startsWith('!clear')) || (rip.startsWith('!send')) || (rip.startsWith('!warn')) || (rip.startsWith('!suggest')) || (rip.startsWith('!type')) || (rip.startsWith('!stoptype'))||(rip.startsWith('♥')) return;
+    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autist", "negroid", "dike"];
     var swearCheck = rip.replace(/\s/g, '')
     if (swearWords.some(word => swearCheck.includes(word))) return;
-    console.log(`${message.author} just deleted their message`)
+    console.log(`${message.author.username} just deleted their message`)
     let color = message.guild.member(message.author).displayColor
-    var attachments = (message.attachments).array()
-    if (message.attachments.array().length >= 1) {
-        var embed = {
-            "title": `${message.author.username} just deleted their message`,
-            "description": `Message sent in channel #${message.channel.name}`,
-            "color": color,
-            "thumbnail": {
-                "url": `${message.author.avatarURL}`
-            },
-            "image": {
-                "url": `${attachments[0].url}`
-            },
-            "author": {
-                "name": "The Delete Scanner",
-                "icon_url": "https://cdn.discordapp.com/app-icons/416446498264580096/4f17fb88d33f4655d85154ee064f030d.png"
-            },
-            "fields": [
-                {
-                    "name": "Original message:",
-                    "value": `${message.content.substr(0, 1024)}`
-                },
-                {
-                    "name": "Attached Image",
-                    "value": `Link: ${attachments[0].url}`
-                }
-            ]
-        }
-    }
-    if (message.attachments.array().length <= 0) {
-        var embed = {
-            "title": `${message.author.username} just deleted their message`,
-            "description": `Message sent in channel #${message.channel.name}`,
-            "color": color,
-            "thumbnail": {
-                "url": `${message.author.avatarURL}`
-            },
-            "author": {
-                "name": "The Delete Scanner",
-                "icon_url": "https://cdn.discordapp.com/app-icons/416446498264580096/4f17fb88d33f4655d85154ee064f030d.png"
-            },
-            "fields": [
-                {
-                    "name": "Original message:",
-                    "value": `${message.content.substr(0, 1024)}`
-                }
-            ]
-        }
-    }
+    var embed = pfpEmbed(color, ["Channel", "Message Content"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`], `${message.author.username}'s message was just deleted`, `${message.author.avatarURL}`)
     guild.channels.get(deleteEditChannel).send({ embed });
 });
 
