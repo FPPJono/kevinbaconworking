@@ -312,12 +312,13 @@ bot.on('message', message => {
         message.channel.send({ embed });
     }
     if (message.content.startsWith(PREFIX + "warn")) {
-        if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) {
+        if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) 
+            if (message.mentions.users.array().toSrting.length <= 0) return
             let guild = message.guild;
             let warning = message.content.substr(28)
             let color = message.guild.member(message.mentions.users.first()).displayColor
             guild.member(message.mentions.users.first()).send(`you have been warned for: \`${warning}\` Please improve your behaviour or you may be kicked or banned from this server in the future.`)
-            var embed = pfpEmbed(color, ["User was warned for:"], [`${warning}`], `${message.author.username} has received a warning`, `${message.author.avatarURL}`)
+            var embed = pfpEmbed(color, ["User was warned for:"], [`${warning}`], `${message.mentions.users.first().username} has received a warning`, `${message.mentions.users.first().avatarURL}`)
             guild.channels.get(warnChannel).send({ embed });
         } else message.channel.send("sorry that command is for admins only");
     }
@@ -350,7 +351,7 @@ bot.on('message', message => {
         message.delete()
         message.channel.send(`\`\`\`Thank you for your suggestion!\`\`\``)
             .then(m => m.delete(5000));
-        var embed = pfpEmbed(color, ["Suggestion:"], [`${message.content.substr(0, 1024)}`], `${message.author.username} has suggested the following`, `${message.author.avatarURL}`)
+        var embed = pfpEmbed(color, ["Suggestion:"], [`${suggestion.substr(0, 1024)}`], `${message.author.username} has suggested the following`, `${message.author.avatarURL}`)
         guild.channels.get(suggestChannel).send({ embed });
     }
     if (message.content.startsWith(PREFIX + "avatar")) {
