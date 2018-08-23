@@ -211,11 +211,7 @@ bot.on('message', message => {
     }
     if (message.channel.id === memesChannel) {
         let a = message.attachments.array().length;
-        if (a >= 1) {
-            message.react('👌')
-            message.react('👎')
-        }
-        if (rip.includes('http')) {
+        if ((a >= 1)||(rip.includes('http'))) {
             message.react('👌')
             message.react('👎')
         }
@@ -227,7 +223,7 @@ bot.on('message', message => {
     }
 
     //slur detection (not that great ngl)
-    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autist", "negroid", "dike"];
+    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike"];
     var swearCheck = rip.replace(/\s/g, '')
     var swearCheck = rip.replace(/​/g, '').replace(/ /g, '').replace(/᠎/g, '')
     const byPass = ["halfaglass", "klondike", "warfage", "of a g"]
@@ -239,17 +235,7 @@ bot.on('message', message => {
         message.delete()
         message.channel.send("Please refrain from using slurs. A copy of your message has been sent to the Admins.")
             .then(m => m.delete(7500));
-        const embed = {
-            "description": `${message.author.username} detected using slurs:\nMessage sent in channel #${message.channel.name}\nMessage sent by ${message.author.username} is below\n"${message.content}"`,
-            "color": color,
-            "thumbnail": {
-                "url": `${message.author.avatarURL}`
-            },
-            "author": {
-                "name": "The Slur Finder Machine",
-                "icon_url": "https://cdn.discordapp.com/app-icons/416446498264580096/4f17fb88d33f4655d85154ee064f030d.png"
-            }
-        };
+        var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`,`${message.author.id}`,`I'll probably add this part soon`], `${message.author.username} has been detected using slurs`, `${message.author.avatarURL}`)
         guild.channels.get(slurChannel).send({ embed });
     }
     const hatewords = ["gay", "black", "homo"];
@@ -260,7 +246,7 @@ bot.on('message', message => {
                 .then(m => m.delete(15000));
         }
     }
-    if (rip.startsWith('!headsup')){
+    if (rip.startsWith('!disclaimer')){
         message.channel.send("this server is mostly jokes, please do not take offense to anything said.")
     }
     if (message.content.startsWith(PREFIX + "send")) {
@@ -331,17 +317,7 @@ bot.on('message', message => {
             let warning = message.content.substr(28)
             let color = message.guild.member(message.mentions.users.first()).displayColor
             guild.member(message.mentions.users.first()).send(`you have been warned for: \`${warning}\` Please improve your behaviour or you may be kicked or banned from this server in the future.`)
-            const embed = {
-                "description": `${message.mentions.users.first().username} has been warned for the reason below:\n${warning}`,
-                "color": color,
-                "thumbnail": {
-                    "url": `${message.mentions.users.first().avatarURL}`
-                },
-                "author": {
-                    "name": "The Warning Machine",
-                    "icon_url": "https://cdn.discordapp.com/app-icons/416446498264580096/4f17fb88d33f4655d85154ee064f030d.png"
-                }
-            };
+            var embed = pfpEmbed(color, ["User was warned for:"], [`${warning}`], `${message.author.username} has received a warning`, `${message.author.avatarURL}`)
             guild.channels.get(warnChannel).send({ embed });
         } else message.channel.send("sorry that command is for admins only");
     }
@@ -353,38 +329,7 @@ bot.on('message', message => {
             var person = message.author
         }
         let color = message.guild.member(person).displayColor
-        const embed = {
-            "color": color,
-            "thumbnail": {
-                "url": `${person.avatarURL}`
-            },
-            "author": {
-                "name": `${person.username}`,
-                "icon_url": `${person.avatarURL}`
-            },
-            "fields": [
-                {
-                    "name": "Display name",
-                    "value": `${message.guild.member(person).displayName}`
-                },
-                {
-                    "name": "User ID",
-                    "value": `${person.id}`
-                },
-                {
-                    "name": "Roles",
-                    "value": `${message.guild.member(person).roles.array().toString().substr(0, 1024)}`
-                },
-                {
-                    "name": "Top Role Color",
-                    "value": `${message.guild.member(person).displayHexColor}`
-                },
-                {
-                    "name": "Joined",
-                    "value": `${message.guild.member(person).joinedAt.toUTCString()}`
-                }
-            ]
-        };
+        var embed = pfpEmbed(color, ["Display Name", "User ID", "Roles", "Top Role Colour", "Joined"], [`${message.guild.member(person).displayName}`,`${person.id}`,`${message.guild.member(person).roles.array().toString().substr(0, 1024)}`,`${message.guild.member(person).displayHexColor}`,`${message.guild.member(person).joinedAt.toUTCString()}`], `Info About ${person.username}`, `${person.avatarURL}`)
         message.channel.send({ embed });
     }
     if (message.content.startsWith(PREFIX + "dm")) {
@@ -405,17 +350,7 @@ bot.on('message', message => {
         message.delete()
         message.channel.send(`\`\`\`Thank you for your suggestion!\`\`\``)
             .then(m => m.delete(5000));
-        const embed = {
-            "description": `${message.author.username} has suggested the change/modification below:\n${suggestion}`,
-            "color": color,
-            "thumbnail": {
-                "url": `${message.author.avatarURL}`
-            },
-            "author": {
-                "name": "The Suggestion Box",
-                "icon_url": "https://cdn.discordapp.com/app-icons/416446498264580096/4f17fb88d33f4655d85154ee064f030d.png"
-            }
-        };
+        var embed = pfpEmbed(color, ["Suggestion:"], [`${message.content.substr(0, 1024)}`], `${message.author.username} has suggested the following`, `${message.author.avatarURL}`)
         guild.channels.get(suggestChannel).send({ embed });
     }
     if (message.content.startsWith(PREFIX + "avatar")) {
