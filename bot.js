@@ -313,12 +313,14 @@ bot.on('message', message => {
     }
     if (message.content.startsWith(PREFIX + "warn")) {
         if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) 
-            if (message.mentions.users.array().toString().length !>=1) return;
+            if (message.mentions.users.array().toString().length >=1) {
+                var person = message.mentions.users.first()
+            } else return;
             let guild = message.guild;
             let warning = message.content.substr(28)
-            let color = message.guild.member(message.mentions.users.first()).displayColor
+            let color = message.guild.member(person).displayColor
             guild.member(message.mentions.users.first()).send(`you have been warned for: \`${warning}\` Please improve your behaviour or you may be kicked or banned from this server in the future.`)
-            var embed = pfpEmbed(color, ["User was warned for:"], [`${warning}`], `${message.mentions.users.first().username} has received a warning`, `${message.mentions.users.first().avatarURL}`)
+            var embed = pfpEmbed(color, ["User was warned for:"], [`${warning}`], `${person.username} has received a warning`, `${person.avatarURL}`)
             guild.channels.get(warnChannel).send({ embed });
         } else message.channel.send("sorry that command is for admins only");
     }
