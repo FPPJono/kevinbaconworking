@@ -313,7 +313,7 @@ bot.on('message', message => {
     }
     if (message.content.startsWith(PREFIX + "warn")) {
         if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) 
-            if (message.mentions.users.array().toSrting.length <= 0) return
+            if (message.mentions.users.array().toString().length !>=1) return;
             let guild = message.guild;
             let warning = message.content.substr(28)
             let color = message.guild.member(message.mentions.users.first()).displayColor
