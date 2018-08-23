@@ -529,7 +529,7 @@ bot.on('messageDelete', message => {
     let guild = message.guild;
     if (message.author.bot) return;
     let rip = message.content.toLowerCase()
-    if ((rip.startsWith('!clear')) || (rip.startsWith('!send')) || (rip.startsWith('!warn')) || (rip.startsWith('!suggest')) || (rip.startsWith('!type')) || (rip.startsWith('!stoptype'))||(rip.startsWith('♥')) return;
+    if ((rip.startsWith('!clear')) || (rip.startsWith('!send')) || (rip.startsWith('!warn')) || (rip.startsWith('!suggest')) || (rip.startsWith('!type')) || (rip.startsWith('!stoptype'))||(rip.startsWith('♥'))) return;
     const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autist", "negroid", "dike"];
     var swearCheck = rip.replace(/\s/g, '')
     if (swearWords.some(word => swearCheck.includes(word))) return;
