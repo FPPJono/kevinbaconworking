@@ -289,7 +289,7 @@ bot.on('message', message => {
             message.channel.send("```You will now be pinged in all important announcements posts```")
         }
     }
-    if (rip.startsWith('!freestuff')) {
+    if (rip.startsWith('!freegames')) {
         if (message.member.roles.has(freegames)) {
             message.member.removeRole(freegames)
             message.channel.send("```You will no longer be pinged in any posts about free games```")
