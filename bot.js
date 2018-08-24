@@ -41,7 +41,7 @@ const botspam = '421789888929595407'
 const admin = '421779825699848212'
 const mod = '481264368512663562'
 const freegames = '482350831451111437'
-const announcements = '482350698777018388'
+const announcerole = '482350698777018388'
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -281,11 +281,11 @@ bot.on('message', message => {
         message.channel.send({ embed });
     }
     if (rip.startsWith('!announcements')) {
-        if (message.member.roles.has(announcements)) {
-            message.member.removeRole(announcements)
+        if (message.member.roles.has(announcerole)) {
+            message.member.removeRole(announcerole)
             message.channel.send("```You will no longer be pinged in any announcements posts```")
         } else {
-            message.member.addRole(announcements)
+            message.member.addRole(announcerole)
             message.channel.send("```You will now be pinged in all important announcements posts```")
         }
     }
