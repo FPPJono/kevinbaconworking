@@ -40,6 +40,8 @@ const botspam = '421789888929595407'
 //roles
 const admin = '421779825699848212'
 const mod = '481264368512663562'
+const freegames = '482350831451111437'
+const announcements = '482350698777018388'
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -153,19 +155,19 @@ bot.on('message', message => {
     }
     if (rip.startsWith(PREFIX + "commands")) {
       if (rip.startsWith("!commands fun")) {
-        let embed = basicEmbed(getRandomInt(16777215), "Fun Commands\n**!rate** rates something\n**!8ball** uses a magic 8ball\n**!coinflip** flips a coin\n**!randomhex** sends a random colour with the hex value of it")
+        let embed = richEmbed(getRandomInt(16777215), ["!rate", "!8ball", "!coinflip", "!randomhex"], ["rates something", "uses a magic 8ball", "flips a coin and tells you the result", "sends a random colour and it's hex value"], "Fun Commands")
         message.channel.send({embed})
       } else if (rip.startsWith("!commands staff")) {
-        let embed = basicEmbed(getRandomInt(16777215), "Staff Commands\n**!send** sends a message\n**!clear** clears a certain amount of messages\n**!warn** warns a member\n**!playing** sets the playing status\n**!watching** sets the watching status\n**!apply** sends an application to become staff")
-        message.channel.send({embed})
-      }else if (rip.startsWith("!commands dyno")) {
-        let embed = basicEmbed(getRandomInt(16777215), "Dyno Commands\n**?google** searches google for specified thing\n**?rps** plays rock paper scissors with the bot\n**?serverinfo** displays info about the server\n**?membercount** says member count\nfor more dyno commands go here https://www.dynobot.net/commands")
+        let embed = richEmbed(getRandomInt(16777215), ["!send", "!clear", "!warn", "!playing", "!watching", "!listening", "!apply", "!dm"], ["send a message through me", "delete an amount of messages from 2-100", "send a warning to a member", "set the playing status for the bot", "set the watching status for the bot", "set the listening status for the bot", "apply to become a staff member", "send a dm to a user with the bot"], "Staff Commands")
         message.channel.send({embed})
       }else if (rip.startsWith("!commands info")){
-        let embed = basicEmbed(getRandomInt(16777215), "Info Commands\n**!ping** pings the bot\n**!userinfo** gets information about your user")
+        let embed = richEmbed(getRandomInt(16777215), ["!ping", "!userinfo"], ["pings the bot","sends information about a user"], "Info Commands")
+        message.channel.send({embed})
+      }else if (rip.startsWith("!commands roles")){
+        let embed = richEmbed(getRandomInt(16777215), ["!announcements", "!freegames"], ["pings you in all important server announcements","pings you in all announcements about free games"], "Role Commands")
         message.channel.send({embed})
       }else {
-        let embed = basicEmbed(getRandomInt(16777215), "Command Categories\n**Fun**\n**Staff**\n**Dyno**\n**Info**\n**The Revolution**\nTo check a category, do !commands [category]\ncommands for all bots will be added to here over time")
+        let embed = richEmbed(getRandomInt(16777215), "Command Categories\n**Fun**\n**Staff**\n**Dyno**\n**Info**\n**Roles**\nTo check a category, do !commands [category]\ncommands for all bots will be added to here over time")
         message.channel.send({embed})
       }
     }
@@ -179,7 +181,15 @@ bot.on('message', message => {
             message.channel.send("sorry, that command is for admins only")
                 .then(m => m.delete(5000));
     }
-
+    if (rip.startsWith("!listening")) {
+        if (message.member.roles.has(admin)) {
+            var useContent = rip.substr(10);
+            bot.user.setPresence({ game: { name: useContent, type: 2 } });
+            console.log(`${sender.username} just changed made me listening to to ${useContent}`)
+        } else
+            message.channel.send("sorry, that command is for admins only")
+                .then(m => m.delete(5000));
+    }
     if (rip.startsWith(PREFIX + "watching")) {
         if (message.member.roles.has(admin)) {
             let content = args.join(" ")
@@ -264,25 +274,29 @@ bot.on('message', message => {
         } else
             message.channel.send("sorry thats for admins only");
     }
-    if (message.content.startsWith(PREFIX + "type")) {
-        if (message.member.roles.has(admin)) {
-            message.delete().catch(O_o => { })
-            message.channel.startTyping()
-        } else
-            message.channel.send("sorry thats for admins only");
-    }
-    if (message.content.startsWith(PREFIX + "stoptype")) {
-        if (message.member.roles.has(admin)) {
-            message.delete().catch(O_o => { })
-            message.channel.stopTyping()
-        } else
-            message.channel.send("sorry thats for admins only");
-    }
     if (message.content.startsWith(PREFIX + "rate")) {
         const thingToRate = args.join(" ");
         var ratedThing = thingToRate.substr(5);
         var embed = basicEmbed(65535, `I would rate ${ratedThing} ${getRandomInt(10)} out of 10!`)
         message.channel.send({ embed });
+    }
+    if (rip.startsWith('!announcements')) {
+        if (message.member.roles.has(announcements)) {
+            message.member.removeRole(announcements)
+            message.channel.send("```You will no longer be pinged in any announcements posts```")
+        } else {
+            message.member.addRole(announcements)
+            message.channel.send("```You will now be pinged in all important announcements posts```")
+        }
+    }
+    if (rip.startsWith('!freestuff')) {
+        if (message.member.roles.has(freegames)) {
+            message.member.removeRole(freegames)
+            message.channel.send("```You will no longer be pinged in any posts about free games```")
+        } else {
+            message.member.addRole(freegames)
+            message.channel.send("```You will now be pinged in all posts about free games```")
+        }
     }
     if (message.content.startsWith(PREFIX + "clear")) {
         if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) {
