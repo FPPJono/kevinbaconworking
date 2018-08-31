@@ -238,6 +238,7 @@ bot.on('message', message => {
     if (swearWords.some(word => swearCheck.includes(word))) {
         var slursFound = []
         if (swearCheck.includes("nigger")) slursFound.push("nigger")
+        if (swearCheck.includes("chink")) slursFound.push("chink")
         if (swearCheck.includes("nigga")) slursFound.push("nigga")
         if (swearCheck.includes("tranny")) slursFound.push("tranny")
         if (swearCheck.includes("fag")) slursFound.push("fag")
