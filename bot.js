@@ -153,11 +153,12 @@ bot.on('message', message => {
     if (message.content.startsWith(PREFIX + "ping")) {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
     }
-    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike"];
+    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike", "negro"];
     var swearCheck = message.content.toLowerCase().replace(/halfaglass/g,"").replace(/klondike/g,"").replace(/warfage/g,"").replace(/of a g/g, "").replace(/f ago/g, "").replace(/\s+/g, '');
     if (swearWords.some(word => swearCheck.includes(word))) {
         var slursFound = []
         if (swearCheck.includes("nigger")) slursFound.push("nigger")
+        if (swearCheck.includes("negro")) slursFound.push("negro")
         if (swearCheck.includes("chink")) slursFound.push("chink")
         if (swearCheck.includes("nigga")) slursFound.push("nigga")
         if (swearCheck.includes("tranny")) slursFound.push("tranny")
@@ -173,6 +174,7 @@ bot.on('message', message => {
             .then(m => m.delete(7500));
         var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`,`${message.author.id}`,`${slursFound.toString().replace(/,/g,", ")}`], `${message.author.username} has been detected using slurs`, `${message.author.avatarURL}`)
         guild.channels.get(slurChannel).send({ embed });
+        return
     }
     if (rip.startsWith(PREFIX + "commands")) {
       if (rip.startsWith("!commands fun")) {
