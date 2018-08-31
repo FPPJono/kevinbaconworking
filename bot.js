@@ -341,7 +341,7 @@ bot.on('message', message => {
             let warning = message.content.substr(28)
             let color = message.guild.member(person).displayColor
             guild.member(person).send(`you have been warned for: \`${warning}\` Please improve your behaviour or you may be kicked or banned from this server in the future.`)
-            var embed = pfpEmbed(color, ["User was warned for:"], [`${warning}`], `${person.username} has received a warning`, `${person.avatarURL}`)
+            var embed = pfpEmbed(color, ["User was warned for:", "Warned by:", "Warned in channel:], [`${warning}`,`<@${message.author.id}>`, `<#${message.channel.id}>`], `${person.username} has received a warning`, `${person.avatarURL}`)
             guild.channels.get(warnChannel).send({ embed });
         } else message.channel.send("sorry that command is for admins only");
     }
