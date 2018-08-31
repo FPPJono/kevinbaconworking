@@ -234,18 +234,23 @@ bot.on('message', message => {
 
     //slur detection (not that great ngl)
     const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike"];
-    var swearCheck = rip.replace(/\s/g, '')
-    var swearCheck = rip.replace(/​/g, '').replace(/ /g, '').replace(/᠎/g, '')
-    const byPass = ["halfaglass", "klondike", "warfage", "of a g"]
+    var swearCheck = message.content.toLowerCase().replace("halfaglass","").replace("klondike","").replace("warfage","").replace("of a g", "").replace(/\s+/g, '');
     if (swearWords.some(word => swearCheck.includes(word))) {
-        if (byPass.some(word => swearCheck.includes(word))) return;
-        if (byPass.some(word => rip.includes(word))) return;
+        var slursFound = []
+        if (swearCheck.includes("nigger")) slursFound.push("nigger")
+        if (swearCheck.includes("nigga")) slursFound.push("nigga")
+        if (swearCheck.includes("tranny")) slursFound.push("tranny")
+        if (swearCheck.includes("fag")) slursFound.push("fag")
+        if ((swearCheck.includes("dyke"))||(swearCheck.includes("dike"))) slursFound.push("dike")
+        if (swearCheck.includes("kike")) slursFound.push("kike")
+        if (swearCheck.includes("autistic")) slursFound.push("autistic")
+        if (swearCheck.includes("negroid")) slursFound.push("negroid")
         let guild = message.guild;
         let color = message.guild.member(message.author).displayColor
         message.delete()
         message.channel.send("Please refrain from using slurs. A copy of your message has been sent to the Admins.")
             .then(m => m.delete(7500));
-        var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`,`${message.author.id}`,`I'll probably add this part soon`], `${message.author.username} has been detected using slurs`, `${message.author.avatarURL}`)
+        var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`,`${message.author.id}`,`${slursFound.toString()}`], `${message.author.username} has been detected using slurs`, `${message.author.avatarURL}`)
         guild.channels.get(slurChannel).send({ embed });
     }
     const hatewords = ["gay", "black", "homo"];
