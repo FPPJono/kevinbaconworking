@@ -399,50 +399,58 @@ bot.on('message', async message => {
     let rip = message.content.toLowerCase()
     if (message.author.bot) return;
     if (message.channel.type === "dm") {
-      if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 1) {
-        staffApps[staffApps.indexOf(message.author.id) + 1].answer1 = message.content.substr(0, 1024)
-        message.author.send("what are your biggest weaknesses?")
-        staffApps[staffApps.indexOf(message.author.id)+ 1].question = 2
-      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 2) {
-        staffApps[staffApps.indexOf(message.author.id) + 1].answer2 = message.content.substr(0, 1024)
-        message.author.send("what are your biggest strengths?")
-        staffApps[staffApps.indexOf(message.author.id) + 1].question = 3
-      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 3) {
-        staffApps[staffApps.indexOf(message.author.id) + 1].answer3 = message.content.substr(0, 1024)
-        message.author.send("out of all the other candidates, why should we choose you?")
-        staffApps[staffApps.indexOf(message.author.id) + 1].question = 4
-      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 4) {
-        staffApps[staffApps.indexOf(message.author.id) + 1].answer4 = message.content.substr(0, 1024)
-        message.author.send("why do you want this job?")
-        staffApps[staffApps.indexOf(message.author.id) + 1].question = 5
-      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 5) {
-        staffApps[staffApps.indexOf(message.author.id) + 1].answer5 = message.content.substr(0, 1024)
-        message.author.send("What is your leadership style?")
-        staffApps[staffApps.indexOf(message.author.id) + 1].question = 6
-      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 6) {
-        staffApps[staffApps.indexOf(message.author.id) + 1].answer6 = message.content.substr(0, 1024)
-        message.author.send("Tell me how you think other people would describe you.")
-        staffApps[staffApps.indexOf(message.author.id) + 1].question = 7
-      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 7) {
-        staffApps[staffApps.indexOf(message.author.id) + 1].answer7 = message.content.substr(0, 1024)
-        message.author.send("How would you go about punishing a member who has done something wrong?")
-        staffApps[staffApps.indexOf(message.author.id) + 1].question = 8
-      }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 8) {
-        staffApps[staffApps.indexOf(message.author.id) + 1].answer8 = message.content.substr(0, 1024)
-        message.author.send("Thank you for entering your application, staff will look through it soon and once all have been checked, our new staff members will be announced")
-        staffApps[staffApps.indexOf(message.author.id) + 1].question = 9
-        var questions = ["tell us a little bit about yourself", "what are your biggest weaknesses", "what are your biggest strengths", "why should we choose you", "why do you want this job", "what is your leadership style", "how would others describe you", "how would you punish someone"]
-        var personObj = staffApps[staffApps.indexOf(message.author.id) + 1]
-        var answers = [personObj.answer1, personObj.answer2, personObj.answer3, personObj.answer4, personObj.answer5, personObj.answer6, personObj.answer7, personObj.answer8]
-        var embed = richEmbed(getRandomInt(16777215), questions, answers, `Application from ${message.author.username}`)
-        bot.guilds.get("421770342361464833").channels.get("480921669851021352").send({embed})
-      }else {
-        var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
-        var s = rip
-        s = s.replace(/[abcdefghijklmnopqrstuvwxyz1234567890 ]/g, m => chars[m]);
-        message.channel.send(`${s}`)
-        return
-      }
+        if(staffApps.includes(message.author.id)) {
+            if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 1) {
+                staffApps[staffApps.indexOf(message.author.id) + 1].answer1 = message.content.substr(0, 1024)
+                message.author.send("what are your biggest weaknesses?")
+                staffApps[staffApps.indexOf(message.author.id)+ 1].question = 2
+            }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 2) {
+                staffApps[staffApps.indexOf(message.author.id) + 1].answer2 = message.content.substr(0, 1024)
+                message.author.send("what are your biggest strengths?")
+                staffApps[staffApps.indexOf(message.author.id) + 1].question = 3
+            }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 3) {
+                staffApps[staffApps.indexOf(message.author.id) + 1].answer3 = message.content.substr(0, 1024)
+                message.author.send("out of all the other candidates, why should we choose you?")
+                staffApps[staffApps.indexOf(message.author.id) + 1].question = 4
+            }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 4) {
+                staffApps[staffApps.indexOf(message.author.id) + 1].answer4 = message.content.substr(0, 1024)
+                message.author.send("why do you want this job?")
+                staffApps[staffApps.indexOf(message.author.id) + 1].question = 5
+            }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 5) {
+                staffApps[staffApps.indexOf(message.author.id) + 1].answer5 = message.content.substr(0, 1024)
+                message.author.send("What is your leadership style?")
+                staffApps[staffApps.indexOf(message.author.id) + 1].question = 6
+            }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 6) {
+                staffApps[staffApps.indexOf(message.author.id) + 1].answer6 = message.content.substr(0, 1024)
+                message.author.send("Tell me how you think other people would describe you.")
+                staffApps[staffApps.indexOf(message.author.id) + 1].question = 7
+            }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 7) {
+                staffApps[staffApps.indexOf(message.author.id) + 1].answer7 = message.content.substr(0, 1024)
+                message.author.send("How would you go about punishing a member who has done something wrong?")
+                staffApps[staffApps.indexOf(message.author.id) + 1].question = 8
+            }else if (staffApps[staffApps.indexOf(message.author.id)+ 1].question === 8) {
+                staffApps[staffApps.indexOf(message.author.id) + 1].answer8 = message.content.substr(0, 1024)
+                message.author.send("Thank you for entering your application, staff will look through it soon and once all have been checked, our new staff members will be announced")
+                staffApps[staffApps.indexOf(message.author.id) + 1].question = 9
+                var questions = ["tell us a little bit about yourself", "what are your biggest weaknesses", "what are your biggest strengths", "why should we choose you", "why do you want this job", "what is your leadership style", "how would others describe you", "how would you punish someone"]
+                var personObj = staffApps[staffApps.indexOf(message.author.id) + 1]
+                var answers = [personObj.answer1, personObj.answer2, personObj.answer3, personObj.answer4, personObj.answer5, personObj.answer6, personObj.answer7, personObj.answer8]
+                var embed = richEmbed(getRandomInt(16777215), questions, answers, `Application from ${message.author.username}`)
+                bot.guilds.get("421770342361464833").channels.get("480921669851021352").send({embed})
+            }else {
+                var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
+                var s = rip
+                s = s.replace(/[abcdefghijklmnopqrstuvwxyz1234567890 ]/g, m => chars[m]);
+                message.channel.send(`${s}`)
+                return
+            }
+        }else {
+            var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
+            var s = rip
+            s = s.replace(/[abcdefghijklmnopqrstuvwxyz1234567890 ]/g, m => chars[m]);
+            message.channel.send(`${s}`)
+            return
+        } 
     }
     if (rip.startsWith("!apply")) {
         if (staffApps.includes(message.author.id)) return message.channel.send("you have already sent in an application, you cannot do this more than once")
