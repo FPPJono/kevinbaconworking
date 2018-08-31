@@ -153,6 +153,27 @@ bot.on('message', message => {
     if (message.content.startsWith(PREFIX + "ping")) {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
     }
+    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike"];
+    var swearCheck = message.content.toLowerCase().replace("halfaglass","").replace("klondike","").replace("warfage","").replace("of a g", "").replace("f ago", "").replace(/\s+/g, '');
+    if (swearWords.some(word => swearCheck.includes(word))) {
+        var slursFound = []
+        if (swearCheck.includes("nigger")) slursFound.push("nigger")
+        if (swearCheck.includes("chink")) slursFound.push("chink")
+        if (swearCheck.includes("nigga")) slursFound.push("nigga")
+        if (swearCheck.includes("tranny")) slursFound.push("tranny")
+        if (swearCheck.includes("fag")) slursFound.push("fag")
+        if ((swearCheck.includes("dyke"))||(swearCheck.includes("dike"))) slursFound.push("dike")
+        if (swearCheck.includes("kike")) slursFound.push("kike")
+        if (swearCheck.includes("autistic")) slursFound.push("autistic")
+        if (swearCheck.includes("negroid")) slursFound.push("negroid")
+        let guild = message.guild;
+        let color = message.guild.member(message.author).displayColor
+        message.delete()
+        message.channel.send("Please refrain from using slurs. A copy of your message has been sent to the Admins.")
+            .then(m => m.delete(7500));
+        var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`,`${message.author.id}`,`${slursFound.toString().replace(",",", ")}`], `${message.author.username} has been detected using slurs`, `${message.author.avatarURL}`)
+        guild.channels.get(slurChannel).send({ embed });
+    }
     if (rip.startsWith(PREFIX + "commands")) {
       if (rip.startsWith("!commands fun")) {
         let embed = richEmbed(getRandomInt(16777215), ["!rate", "!8ball", "!coinflip", "!randomhex"], ["rates something", "uses a magic 8ball", "flips a coin and tells you the result", "sends a random colour and it's hex value"], "Fun Commands")
@@ -232,27 +253,6 @@ bot.on('message', message => {
         message.channel.send({ embed });
     }
 
-    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike"];
-    var swearCheck = message.content.toLowerCase().replace("halfaglass","").replace("klondike","").replace("warfage","").replace("of a g", "").replace(/\s+/g, '');
-    if (swearWords.some(word => swearCheck.includes(word))) {
-        var slursFound = []
-        if (swearCheck.includes("nigger")) slursFound.push("nigger")
-        if (swearCheck.includes("chink")) slursFound.push("chink")
-        if (swearCheck.includes("nigga")) slursFound.push("nigga")
-        if (swearCheck.includes("tranny")) slursFound.push("tranny")
-        if (swearCheck.includes("fag")) slursFound.push("fag")
-        if ((swearCheck.includes("dyke"))||(swearCheck.includes("dike"))) slursFound.push("dike")
-        if (swearCheck.includes("kike")) slursFound.push("kike")
-        if (swearCheck.includes("autistic")) slursFound.push("autistic")
-        if (swearCheck.includes("negroid")) slursFound.push("negroid")
-        let guild = message.guild;
-        let color = message.guild.member(message.author).displayColor
-        message.delete()
-        message.channel.send("Please refrain from using slurs. A copy of your message has been sent to the Admins.")
-            .then(m => m.delete(7500));
-        var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`,`${message.author.id}`,`${slursFound.toString().replace(",",", ")}`], `${message.author.username} has been detected using slurs`, `${message.author.avatarURL}`)
-        guild.channels.get(slurChannel).send({ embed });
-    }
     const hatewords = ["gay", "black", "homo"];
     var swearCheck = rip.replace(/\s/g, '')
     if (swearCheck.includes('hate')) {
