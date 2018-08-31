@@ -490,6 +490,29 @@ bot.on('messageUpdate', (omsg, nmsg) => {
     let color = guild.member(omsg.author).displayColor
     var embed = pfpEmbed(color, ["Channel", "Original Message Content", "New Message Content"], [`<#${omsg.channel.id}>`,`${omsg.content.substr(0, 1024)}`, `${nmsg.content.substr(0,1024)}`], `${omsg.author.username} just edited their message!`, `${omsg.author.avatarURL}`)
     guild.channels.get(deleteEditChannel).send({ embed });
+    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike", "negro"];
+    var swearCheck = nmsg.content.toLowerCase().replace(/halfaglass/g,"").replace(/klondike/g,"").replace(/warfage/g,"").replace(/of a g/g, "").replace(/f ago/g, "").replace(/\s+/g, '');
+    if (swearWords.some(word => swearCheck.includes(word))) {
+        var slursFound = []
+        if (swearCheck.includes("nigger")) slursFound.push("nigger")
+        if (swearCheck.includes("negro")) slursFound.push("negro")
+        if (swearCheck.includes("chink")) slursFound.push("chink")
+        if (swearCheck.includes("nigga")) slursFound.push("nigga")
+        if (swearCheck.includes("tranny")) slursFound.push("tranny")
+        if (swearCheck.includes("fag")) slursFound.push("fag")
+        if ((swearCheck.includes("dyke"))||(swearCheck.includes("dike"))) slursFound.push("dike")
+        if (swearCheck.includes("kike")) slursFound.push("kike")
+        if (swearCheck.includes("autistic")) slursFound.push("autistic")
+        if (swearCheck.includes("negroid")) slursFound.push("negroid")
+        let guild = nmsg.guild;
+        let color = nmsg.guild.member(nmsg.author).displayColor
+        nmsg.delete()
+        nmsg.channel.send("Please refrain from using slurs. A copy of your message has been sent to the Admins.")
+            .then(m => m.delete(7500));
+        var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${nmsg.channel.id}>`,`${nmsg.content.substr(0, 1024)}`,`${nmsg.author.id}`,`${slursFound.toString().replace(/,/g,", ")}`], `${nmsg.author.username} has been detected using slurs`, `${nmsg.author.avatarURL}`)
+        guild.channels.get(slurChannel).send({ embed });
+        return
+    }
 });
 
 bot.on('messageDelete', message => {
