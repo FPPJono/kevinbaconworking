@@ -36,6 +36,7 @@ const welcome = '421790758933233664'
 const banter = '421778879133384705'
 const rules = '472372452605820928'
 const botspam = '421789888929595407'
+const dagsex = '458911167780356105'
 
 //roles
 const admin = '421779825699848212'
@@ -242,7 +243,7 @@ bot.on('message', message => {
             message.react('👌')
         }
     }
-    if (message.channel.id === memesChannel) {
+    if ((message.channel.id === dagsex)||(message.channel.id === memesChannel)) {
         let a = message.attachments.array().length;
         if ((a >= 1)||(rip.includes('http'))) {
             message.react('👌')
