@@ -39,6 +39,8 @@ const botspam = '421789888929595407'
 const dagsex = '458911167780356105'
 const alexchat = '487117145667534868'
 const staffapps = '480921669851021352'
+const testchannel = "421794402986360832"
+const timezone = '447967753639297025'
 
 const swagpigs = '421770342361464833'
 
@@ -137,6 +139,32 @@ async function welcomecard(person, guild) {
     });
 }
 
+const events = {
+    MESSAGE_REACTION_ADD: 'messageReactionAdd',
+    MESSAGE_REACTION_REMOVE: 'messageReactionRemove',
+};
+bot.on('raw', async event => {
+    // `event.t` is the raw event name
+    if (!events.hasOwnProperty(event.t)) return;
+
+    const { d: data } = event;
+    const user = bot.users.get(data.user_id);
+    const channel = bot.channels.get(data.channel_id) || await user.createDM();
+
+    // if the message is already in the cache, don't re-emit the event
+    if (channel.messages.has(data.message_id)) return;
+
+    // if you're on the master/v12 branch, use `channel.messages.fetch()`
+    const message = await channel.fetchMessage(data.message_id);
+
+    // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
+    // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
+    const emojiKey = (data.emoji.id) ? `${data.emoji.name}:${data.emoji.id}` : data.emoji.name;
+    const reaction = message.reactions.get(emojiKey);
+
+    bot.emit(events[event.t], reaction, user);
+});
+
 bot.on("guildMemberAdd", async member => {
     let guild = member.guild;
     welcomecard(member.user, guild)
@@ -149,6 +177,7 @@ bot.on('ready', () => {
     wait(5000)
     bot.user.setPresence({ game: { name: 'in some dirt', type: 0 } });
     bot.user.setUsername("Kevin Bacon");
+    bot.channels.get(testchannel).send("`bot restarted`")
 });
 
 bot.on('message', message => {
@@ -550,28 +579,11 @@ bot.on('messageDelete', message => {
 });
 
 //timeRoles
-
-const correctchannel = "447967753639297025"
-
-bot.on('ready', () => {
-    bot.channels.get(correctchannel).send("test")
-    bot.channels.get(correctchannel).bulkDelete(3)
-    const embed = { "description": "```To get a timezone role,\njust react to this message with the emote\nthats next to the time zone role you want```", "color": 965737, "fields": [{ "name": ":regional_indicator_a:", "value": "AZ (UTC - 7)" }, { "name": ":regional_indicator_b:", "value": "Central Time (UTC - 6)" }, { "name": ":regional_indicator_c:", "value": "NZ (UTC + 12)" }, { "name": ":regional_indicator_d:", "value": "PST (UTC - 8)" }] };
-    bot.channels.get(correctchannel).send({ embed })
-        .then(function (message) {
-            message.react("🇦")
-            message.react("🇧")
-            message.react("🇨")
-            message.react("🇩")
-        });
-    bot.channels.get(correctchannel).send("if your time zone isnt here,please send it in <#425570477281378305>")
-});
-
 bot.on('messageReactionAdd', async (reaction, user) => {
-    reactionRoleToggle(correctchannel, '447978247695892499', "🇦", reaction, user, ['447979856710336513','447970716953083925','447983013758894100'])
-    reactionRoleToggle(correctchannel, '447979856710336513', "🇧", reaction, user, ['447978247695892499','447970716953083925','447983013758894100'])
-    reactionRoleToggle(correctchannel, '447970716953083925', "🇨", reaction, user, ['447978247695892499','447979856710336513','447983013758894100'])
-    reactionRoleToggle(correctchannel, '447983013758894100', "🇩", reaction, user, ['447978247695892499','447979856710336513','447970716953083925'])
+    reactionRoleToggle(timezone, '447978247695892499', "🇦", reaction, user, ['447979856710336513','447970716953083925','447983013758894100'])
+    reactionRoleToggle(timezone, '447979856710336513', "🇧", reaction, user, ['447978247695892499','447970716953083925','447983013758894100'])
+    reactionRoleToggle(timezone, '447970716953083925', "🇨", reaction, user, ['447978247695892499','447979856710336513','447983013758894100'])
+    reactionRoleToggle(timezone, '447983013758894100', "🇩", reaction, user, ['447978247695892499','447979856710336513','447970716953083925'])
 });
 
 // Sneaky Sneaky Token. Dont Share Kiddos
