@@ -193,7 +193,11 @@ bot.on('message', message => {
         }
     }
     if (message.channel.id === alexchat) {
-        guild.members.get(alex).send(message)
+        guild.members.get(alex).send(message.content)
+        var attachments = (message.attachments).array()
+        if (message.attachments.array().length >= 1) {
+            attachments.forEach(function (attachment) { guild.members.get(alex).send({ file: `${attachment.url}` }) })
+        }else if (message.attachments.array().length <= 0) return
     }
     var announcement = bot.channels.get(announcements);
     let rip = message.content.toLowerCase()
@@ -322,8 +326,7 @@ bot.on('message', message => {
             if (message.attachments.array().length >= 1) {
                 message.channel.send(`${useContent}`)
                 attachments.forEach(function (attachment) { message.channel.send({ file: `${attachment.url}` }) })
-            }
-            if (message.attachments.array().length <= 0) { message.channel.send(`${useContent}`) }
+            }else if (message.attachments.array().length <= 0) { message.channel.send(`${useContent}`) }
             message.channel.stopTyping()
         } else
             message.channel.send("sorry thats for admins only");
