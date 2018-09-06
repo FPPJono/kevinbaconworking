@@ -44,7 +44,7 @@ const timezone = '447967753639297025'
 
 const swagpigs = '421770342361464833'
 
-const alex = '377819024916086784'
+const alex = '270017125815418901'
 
 //roles
 const admin = '421779825699848212'
@@ -193,7 +193,7 @@ bot.on('message', message => {
         }
     }
     if (message.channel.id === alexchat) {
-        guild.members.get(alex).send(message.content)
+        guild.members.get(alex).send(message)
     }
     var announcement = bot.channels.get(announcements);
     let rip = message.content.toLowerCase()
