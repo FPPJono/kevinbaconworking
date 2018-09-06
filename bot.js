@@ -42,7 +42,7 @@ const staffapps = '480921669851021352'
 
 const swagpigs = '421770342361464833'
 
-const alex = '393525900232097792'
+const alex = '377819024916086784'
 
 //roles
 const admin = '421779825699848212'
