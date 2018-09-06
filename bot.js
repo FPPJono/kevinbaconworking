@@ -37,6 +37,12 @@ const banter = '421778879133384705'
 const rules = '472372452605820928'
 const botspam = '421789888929595407'
 const dagsex = '458911167780356105'
+const alexchat = '487117145667534868'
+const staffapps = '480921669851021352'
+
+const swagpigs = '421770342361464833'
+
+const alex = '393525900232097792'
 
 //roles
 const admin = '421779825699848212'
@@ -149,6 +155,13 @@ bot.on('message', message => {
     var sender = message.author;
     if (message.author.bot) return;
     const args = message.content.split(" ");
+    if ((message.channel.type === "dm")&&(message.author.id != alex)) {
+        if (message.content.startsWith('!')) {
+            return
+        } else {
+            bot.guilds.get(swagpigs).channels.get(alexchat).send(message.content)
+        }
+    }
     var announcement = bot.channels.get(announcements);
     let rip = message.content.toLowerCase()
     if (message.content.startsWith(PREFIX + "ping")) {
@@ -444,7 +457,7 @@ bot.on('message', async message => {
                 var personObj = staffApps[staffApps.indexOf(message.author.id) + 1]
                 var answers = [personObj.answer1, personObj.answer2, personObj.answer3, personObj.answer4, personObj.answer5, personObj.answer6, personObj.answer7, personObj.answer8]
                 var embed = richEmbed(getRandomInt(16777215), questions, answers, `Application from ${message.author.username}`)
-                bot.guilds.get("421770342361464833").channels.get("480921669851021352").send({embed})
+                bot.guilds.get(alexchat).channels.get(staffapps).send({embed})
             }else {
                 var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
                 var s = rip
