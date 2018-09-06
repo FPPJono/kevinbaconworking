@@ -155,12 +155,16 @@ bot.on('message', message => {
     var sender = message.author;
     if (message.author.bot) return;
     const args = message.content.split(" ");
-    if ((message.channel.type === "dm")&&(message.author.id != alex)) {
+    let guild = message.guild
+    if ((message.channel.type === "dm")&&(message.author.id === alex)) {
         if (message.content.startsWith('!')) {
             return
         } else {
             bot.guilds.get(swagpigs).channels.get(alexchat).send(message.content)
         }
+    }
+    if (message.channel.id === alexchat) {
+        guild.members.get(alex).send(message.content)
     }
     var announcement = bot.channels.get(announcements);
     let rip = message.content.toLowerCase()
@@ -465,7 +469,9 @@ bot.on('message', async message => {
                 message.channel.send(`${s}`)
                 return
             }
-        }else {
+        }else if (message.author.id === alex) {
+            return
+        } else{
             var chars = { ' ': '/', 'a': '.- ', 'b': '-... ', 'c': '-.-. ', 'd': '-.. ', 'e': '. ', 'f': '..-. ', 'g': '--. ', 'h': '.... ', 'i': '.. ', 'j': '.--- ', 'k': '-.- ', 'l': '.-.. ', 'm': '-- ', 'n': '-. ', 'o': '--- ', 'p': '.--. ', 'q': '--.- ', 'r': '.-. ', 's': '... ', 't': '- ', 'u': '..- ', 'v': '...- ', 'w': '.-- ', 'x': '-..- ', 'y': '-.-- ', 'z': '--.. ', '1': '.---- ', '2': '..--- ', '3': '...-- ', '4': '....- ', '5': '..... ', '6': '-.... ', '7': '--... ', '8': '---.. ', '9': '----. ', '0': '----- ' };
             var s = rip
             s = s.replace(/[abcdefghijklmnopqrstuvwxyz1234567890 ]/g, m => chars[m]);
