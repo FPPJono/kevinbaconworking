@@ -232,7 +232,7 @@ bot.on('message', message => {
         let embed = richEmbed(getRandomInt(16777215), ["!rate", "!8ball", "!coinflip", "!randomhex"], ["rates something", "uses a magic 8ball", "flips a coin and tells you the result", "sends a random colour and it's hex value"], "Fun Commands")
         message.channel.send({embed})
       } else if (rip.startsWith("!commands staff")) {
-        let embed = richEmbed(getRandomInt(16777215), ["!send", "!clear", "!warn", "!playing", "!watching", "!listening", "!apply", "!dm"], ["send a message through me", "delete an amount of messages from 2-100", "send a warning to a member", "set the playing status for the bot", "set the watching status for the bot", "set the listening status for the bot", "apply to become a staff member", "send a dm to a user with the bot"], "Staff Commands")
+        let embed = richEmbed(getRandomInt(16777215), ["!send", "!delete", "!warn", "!playing", "!watching", "!listening", "!apply", "!dm"], ["send a message through me", "delete an amount of messages from 2-100", "send a warning to a member", "set the playing status for the bot", "set the watching status for the bot", "set the listening status for the bot", "apply to become a staff member", "send a dm to a user with the bot"], "Staff Commands")
         message.channel.send({embed})
       }else if (rip.startsWith("!commands info")){
         let embed = richEmbed(getRandomInt(16777215), ["!ping", "!userinfo"], ["pings the bot","sends information about a user"], "Info Commands")
@@ -355,7 +355,7 @@ bot.on('message', message => {
             message.channel.send("```You will now be pinged in all posts about free games```")
         }
     }
-    if (message.content.startsWith(PREFIX + "clear")) {
+    if (message.content.startsWith(PREFIX + "delete")) {
         if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) {
             message.delete()
             let messagecount = parseInt(args[1]) || 1;
