@@ -208,16 +208,10 @@ bot.on('message', message => {
     var swearCheck = message.content.toLowerCase().replace(/halfaglass/g,"").replace(/klondike/g,"").replace(/warfage/g,"").replace(/of a g/g, "").replace(/f ago/g, "").replace(/\s+/g, '');
     if (swearWords.some(word => swearCheck.includes(word))) {
         var slursFound = []
-        if (swearCheck.includes("nigger")) slursFound.push("nigger")
-        if (swearCheck.includes("negro")) slursFound.push("negro")
-        if (swearCheck.includes("chink")) slursFound.push("chink")
-        if (swearCheck.includes("nigga")) slursFound.push("nigga")
-        if (swearCheck.includes("tranny")) slursFound.push("tranny")
-        if (swearCheck.includes("fag")) slursFound.push("fag")
-        if ((swearCheck.includes("dyke"))||(swearCheck.includes("dike"))) slursFound.push("dike")
-        if (swearCheck.includes("kike")) slursFound.push("kike")
-        if (swearCheck.includes("autistic")) slursFound.push("autistic")
-        if (swearCheck.includes("negroid")) slursFound.push("negroid")
+        var i
+        for (i in swearWords) {
+            if (swearCheck.includes(swearWords[i])) slursFound.push(swearWords[i])
+        }
         let guild = message.guild;
         let color = message.guild.member(message.author).displayColor
         message.delete()
