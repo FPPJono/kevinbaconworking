@@ -205,7 +205,7 @@ bot.on('message', message => {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
     }
     const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike", "negro"];
-    var swearCheck = message.content.toLowerCase().replace(/halfaglass/g,"").replace(/klondike/g,"").replace(/warfage/g,"").replace(/of a g/g, "").replace(/f ago/g, "").replace(/\s+/g, '');
+    var swearCheck = message.content.toLowerCase().replace(/halfaglass/g,"").replace(/klondike/g,"").replace(/warfage/g,"").replace(/of a g/g, "").replace(/f ago/g, "").replace(/of age/g, "").replace(/\s+/g, '');
     if (swearWords.some(word => swearCheck.includes(word))) {
         var slursFound = []
         var i
