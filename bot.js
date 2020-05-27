@@ -194,23 +194,6 @@ bot.on('message', message => {
     if (message.content.startsWith(PREFIX + "ping")) {
         message.channel.send(`Pong! ${new Date().getTime() - message.createdTimestamp}ms`)
     }
-    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike", "negro"];
-    var swearCheck = message.content.toLowerCase().replace(/halfaglass/g,"").replace(/klondike/g,"").replace(/warfage/g,"").replace(/of a g/g, "").replace(/f ago/g, "").replace(/of age/g, "").replace(/\s+/g, '');
-    if (swearWords.some(word => swearCheck.includes(word))) {
-        var slursFound = []
-        var i
-        for (i in swearWords) {
-            if (swearCheck.includes(swearWords[i])) slursFound.push(swearWords[i])
-        }
-        let guild = message.guild;
-        let color = message.guild.member(message.author).displayColor
-        message.delete()
-        message.channel.send("Please refrain from using slurs. A copy of your message has been sent to the Admins.")
-            .then(m => m.delete(7500));
-        var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`,`${message.author.id}`,`${slursFound.toString().replace(/,/g,", ")}`], `${message.author.username} has been detected using slurs`, `${message.author.avatarURL}`)
-        guild.channels.get(slurChannel).send({ embed });
-        return
-    }
     if (rip.startsWith(PREFIX + "commands")) {
       if (rip.startsWith("!commands fun")) {
         let embed = richEmbed(getRandomInt(16777215), ["!rate", "!8ball", "!coinflip", "!randomhex"], ["rates something", "uses a magic 8ball", "flips a coin and tells you the result", "sends a random colour and it's hex value"], "Fun Commands")
@@ -261,16 +244,6 @@ bot.on('message', message => {
     if ((rip.includes("<@416446498264580096>")) || (rip.includes("<@!416446498264580096>"))) {
         message.channel.send("shut up");
     }
-    if (rip.includes("bacon")) {
-        message.react("🐷")
-    }
-    if (rip.includes("dab")) {
-        message.react('380221447295205376')
-    }
-    if (rip.includes("spreadsheet")) {
-        message.react('416071297920008192')
-        message.channel.send("ha loser")
-    }
     if (message.channel.id === artChannel) {
         let a = message.attachments.array().length;
         if (a >= 1) {
@@ -290,17 +263,6 @@ bot.on('message', message => {
         message.channel.send({ embed });
     }
 
-    const hatewords = ["gay", "black", "homo"];
-    var swearCheck = rip.replace(/\s/g, '')
-    if (swearCheck.includes('hate')) {
-        if (hatewords.some(word => swearCheck.includes(word))) {
-            message.channel.send("this server is mostly jokes, please do not take offense to anything said.")
-                .then(m => m.delete(15000));
-        }
-    }
-    if (rip.startsWith('!disclaimer')){
-        message.channel.send("this server is mostly jokes, please do not take offense to anything said.")
-    }
     if (message.content.startsWith(PREFIX + "send")) {
         if ((message.member.roles.has(admin))||(message.member.roles.has(mod))) {
             const sayMessage = args.join(" ");
@@ -517,47 +479,6 @@ function reactionRoleToggle(channel, roleid, emoji, reaction, user, roles) {
     }
 }
 
-//Delete Edit Log Code
-bot.on('messageUpdate', (omsg, nmsg) => {
-    if (omsg.author.bot) return;
-    if (omsg.content === nmsg.content) return;
-    console.log(`${omsg.author.username} just edited their message`);
-    let guild = omsg.guild;
-    let color = guild.member(omsg.author).displayColor
-    var embed = pfpEmbed(color, ["Channel", "Original Message Content", "New Message Content"], [`<#${omsg.channel.id}>`,`${omsg.content.substr(0, 1024)}`, `${nmsg.content.substr(0,1024)}`], `${omsg.author.username} just edited their message!`, `${omsg.author.avatarURL}`)
-    guild.channels.get(deleteEditChannel).send({ embed });
-    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autistic", "negroid", "dike", "negro"];
-    var swearCheck = nmsg.content.toLowerCase().replace(/halfaglass/g,"").replace(/klondike/g,"").replace(/warfage/g,"").replace(/of a g/g, "").replace(/f ago/g, "").replace(/\s+/g, '');
-    if (swearWords.some(word => swearCheck.includes(word))) {
-        var slursFound = []
-        var i
-        for (i in swearWords) {
-            if (swearCheck.includes(swearWords[i])) slursFound.push(swearWords[i])
-        }
-        let guild = nmsg.guild;
-        let color = nmsg.guild.member(nmsg.author).displayColor
-        nmsg.delete()
-        nmsg.channel.send("Please refrain from using slurs. A copy of your message has been sent to the Admins.")
-            .then(m => m.delete(7500));
-        var embed = pfpEmbed(color, ["Message sent in channel:", "Message content:", "User ID:", "Slurs found:"], [`<#${nmsg.channel.id}>`,`${nmsg.content.substr(0, 1024)}`,`${nmsg.author.id}`,`${slursFound.toString().replace(/,/g,", ")}`], `${nmsg.author.username} has been detected using slurs`, `${nmsg.author.avatarURL}`)
-        guild.channels.get(slurChannel).send({ embed });
-        return
-    }
-});
-
-bot.on('messageDelete', message => {
-    let guild = message.guild;
-    if (message.author.bot) return;
-    let rip = message.content.toLowerCase()
-    if ((rip.startsWith('!delete')) || (rip.startsWith('!send')) || (rip.startsWith('!warn')) || (rip.startsWith('!suggest')) || (rip.startsWith('!type')) || (rip.startsWith('!stoptype'))||(rip.startsWith('♥'))) return;
-    const swearWords = ["nigger", "chink", "tranny", "fag", "dyke", "nigga", "kike", "autist", "negroid", "dike"];
-    var swearCheck = rip.replace(/\s/g, '')
-    if (swearWords.some(word => swearCheck.includes(word))) return;
-    console.log(`${message.author.username} just deleted their message`)
-    let color = message.guild.member(message.author).displayColor
-    var embed = pfpEmbed(color, ["Channel", "Message Content"], [`<#${message.channel.id}>`,`${message.content.substr(0, 1024)}`], `${message.author.username}'s message was just deleted`, `${message.author.avatarURL}`)
-    guild.channels.get(deleteEditChannel).send({ embed });
-});
 
 //timeRoles
 bot.on('messageReactionAdd', async (reaction, user) => {
