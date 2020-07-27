@@ -64,7 +64,7 @@
     "lodash": "4.17.10",
     "xml2js": "0.4.19",
     "pureimage": "0.1.6",
-    "jpeg-js": "0.3.4",
+    "jpeg-js": "0.4.1",
     "opentype.js": "0.8.0",
     "pngjs": "3.3.3",
     "tmp": "0.0.33",
